@@ -17,6 +17,7 @@ const localProjects = computed(() => {
     const parsed = JSON.parse(VIRTUAL_FILES.projects.raw)
     return parsed.featured_projects || []
   } catch (e) {
+    console.error('Failed to parse local projects:', e)
     return []
   }
 })
@@ -40,7 +41,7 @@ const highlightJsonLine = (line) => {
   html = html.replace(/: \s*(true|false|null|\d+)/g, ': <span class="text-[#d19a66] font-bold">$1</span>')
 
   // Warnai Kurung Kurawal & Kurung Siku
-  html = html.replace(/([\{\}\[\]])/g, '<span class="text-[#e5c07b]">$1</span>')
+  html = html.replace(/([{}[\]])/g, '<span class="text-[#e5c07b]">$1</span>')
 
   return html
 }
@@ -174,58 +175,54 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
             </div>
           </div>
 
-          <!-- Pinned Repositories Grid -->
-          <div class="space-y-4">
+          <!-- My Repositories Grid -->
+          <div v-if="githubStore.profileData.repositories?.nodes?.length" class="space-y-4">
             <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono text-left flex items-center space-x-2">
-              <span>⭐</span>
-              <span>Pinned Repositories</span>
+              <span>📁</span>
+              <span>My Repositories</span>
             </h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div 
-                v-for="repo in githubStore.profileData.pinnedItems?.nodes" 
-                :key="repo.name"
-                class="p-5 rounded-lg bg-slate-900/30 border border-slate-800/60 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all text-left group"
+                v-for="repo in githubStore.profileData.repositories.nodes" 
+                :key="'recent-'+repo.name"
+                class="p-4 rounded-lg bg-slate-900/10 border border-slate-800/40 flex flex-col justify-between hover:border-slate-500/40 hover:bg-slate-800/20 transition-all text-left group"
               >
-                <div class="space-y-3">
+                <div class="space-y-2">
                   <div class="flex justify-between items-start gap-2">
-                    <span class="text-base font-bold text-slate-200 group-hover:text-cyan-400 transition-colors truncate">
+                    <span class="text-sm font-bold text-slate-300 group-hover:text-cyan-400 transition-colors truncate">
                       {{ repo.name }}
                     </span>
                     <a 
                       :href="repo.url" 
                       target="_blank" 
-                      class="text-slate-500 hover:text-cyan-400 text-xs interactive shrink-0"
+                      class="text-slate-600 hover:text-cyan-400 text-[10px] interactive shrink-0"
                       title="Buka di GitHub"
                     >
                       🔗
                     </a>
                   </div>
-                  <p class="text-xs text-slate-400 leading-relaxed h-12 overflow-hidden text-ellipsis line-clamp-2">
-                    {{ repo.description || 'Tidak ada deskripsi yang tersedia untuk repositori ini.' }}
+                  <p class="text-[11px] text-slate-500 leading-relaxed h-8 overflow-hidden text-ellipsis line-clamp-2">
+                    {{ repo.description || 'Tidak ada deskripsi.' }}
                   </p>
                 </div>
                 
-                <div class="pt-4 flex items-center justify-between border-t border-slate-900/50 mt-4 text-[11px] font-mono text-slate-400 select-none">
+                <div class="pt-3 flex items-center justify-between border-t border-slate-900/30 mt-3 text-[10px] font-mono text-slate-500 select-none">
                   <!-- Language -->
-                  <div v-if="repo.primaryLanguage" class="flex items-center space-x-2">
+                  <div v-if="repo.primaryLanguage" class="flex items-center space-x-1.5">
                     <span 
-                      class="w-2.5 h-2.5 rounded-full inline-block"
+                      class="w-2 h-2 rounded-full inline-block"
                       :style="{ backgroundColor: repo.primaryLanguage.color }"
                     ></span>
                     <span>{{ repo.primaryLanguage.name }}</span>
                   </div>
-                  <span v-else class="text-slate-500">Unspecified</span>
+                  <span v-else class="text-slate-600">Unspecified</span>
                   
                   <!-- Stars / Forks -->
-                  <div class="flex items-center space-x-3">
-                    <span class="flex items-center space-x-1" title="Stars">
+                  <div class="flex items-center space-x-2">
+                    <span class="flex items-center space-x-1">
                       <span>★</span>
                       <span>{{ repo.stargazerCount }}</span>
-                    </span>
-                    <span class="flex items-center space-x-1" title="Forks">
-                      <span>🍴</span>
-                      <span>{{ repo.forkCount }}</span>
                     </span>
                   </div>
                 </div>

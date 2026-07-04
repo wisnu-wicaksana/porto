@@ -104,15 +104,17 @@ My philosophy: "Code is an instrument to solve real problems efficiently."`
         await new Promise(resolve => setTimeout(resolve, 1000))
       }
 
-      if (githubStore.profileData && githubStore.profileData.pinnedItems) {
-        let projText = `\n[ GITHUB PINNED REPOSITORIES - @${githubStore.profileData.login} ]\n\n`
-        githubStore.profileData.pinnedItems.nodes.forEach(repo => {
+      if (githubStore.profileData && githubStore.profileData.repositories?.nodes?.length) {
+        let projText = `\n[ MY REPOSITORIES - @${githubStore.profileData.login} ]\n\n`
+        
+        githubStore.profileData.repositories.nodes.forEach(repo => {
           const lang = repo.primaryLanguage ? repo.primaryLanguage.name : 'Unknown'
-          projText += `* ${repo.name.toUpperCase()}\n`
+          projText += `* ${repo.name}\n`
           projText += `  Desc: ${repo.description || 'No description'}\n`
           projText += `  Tech: ${lang} | Stars: ${repo.stargazerCount} | Forks: ${repo.forkCount}\n`
           projText += `  Link: ${repo.url}\n\n`
         })
+
         commandHistory.value.push({ type: 'output', text: projText })
       } else {
         // Fallback jika API gagal
@@ -133,23 +135,54 @@ Failed to fetch live data from GitHub. Showing local fallback:
       break
 
     case 'skills':
-      commandHistory.value.push({ 
-        type: 'output', 
-        text: `[ TECHNICAL SKILLS ]
+      if (githubStore.profileData?.repositories?.nodes) {
+        let skillsText = `[ GITHUB LANGUAGES DISTRIBUTION ]\n\n`
+        
+        const langs = {}
+        let totalRepos = 0
+        
+        githubStore.profileData.repositories.nodes.forEach(repo => {
+          if (repo.primaryLanguage) {
+            const name = repo.primaryLanguage.name
+            if (!langs[name]) langs[name] = 0
+            langs[name]++
+            totalRepos++
+          }
+        })
+        
+        const skillsArray = Object.keys(langs).map(key => ({
+          name: key,
+          level: Math.round((langs[key] / totalRepos) * 100)
+        })).sort((a, b) => b.level - a.level)
+        
+        skillsArray.forEach(skill => {
+          const filled = Math.round(skill.level / 10)
+          const empty = 10 - filled
+          const bar = '█'.repeat(filled) + '░'.repeat(empty)
+          skillsText += `${skill.name.padEnd(16)} [${bar}] ${skill.level}%\n`
+        })
 
-Frontend Development:
-Vue.js 3         [██████████
-] 90%
-React & Next.js  [████████░░] 85%
-Tailwind CSS v4  [██████████] 95%
-TypeScript       [█████████░] 88%
+        // Menambahkan Detail Framework & Library
+        skillsText += `\n[ FRAMEWORKS & LIBRARIES ECOSYSTEM ]\n\n`
+        skillsText += `Frontend:\n`
+        skillsText += `Vue.js 3         [█████████░] 90%\n`
+        skillsText += `Tailwind CSS v4  [█████████░] 95%\n`
+        skillsText += `React & Next.js  [████████░░] 85%\n`
+        skillsText += `Pinia & Redux    [████████░░] 88%\n\n`
+        
+        skillsText += `Backend & API:\n`
+        skillsText += `Node.js (ESM)    [████████░░] 88%\n`
+        skillsText += `Express & REST   [████████░░] 85%\n`
+        skillsText += `Vercel Functions [█████████░] 90%\n\n`
 
-Backend & DevOps:
-Node.js (ESM)    [█████████░] 85%
-Vercel Functions [██████████] 90%
-PostgreSQL       [████████░░] 82%
-Docker & CI/CD   [███████░░░] 75%` 
-      })
+        skillsText += `Database & DevOps:\n`
+        skillsText += `PostgreSQL       [████████░░] 82%\n`
+        skillsText += `Docker & CI/CD   [███████░░░] 75%\n`
+        
+        commandHistory.value.push({ type: 'output', text: skillsText })
+      } else {
+        commandHistory.value.push({ type: 'output', text: 'Still loading data from GitHub. Please try again in a moment.' })
+      }
       break
 
     case 'contact':

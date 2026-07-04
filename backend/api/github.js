@@ -36,22 +36,7 @@ export default async function handler(req, res) {
         location
         websiteUrl
         twitterUsername
-        pinnedItems(first: 6, types: REPOSITORY) {
-          nodes {
-            ... on Repository {
-              name
-              description
-              url
-              stargazerCount
-              forkCount
-              primaryLanguage {
-                name
-                color
-              }
-            }
-          }
-        }
-        repositories(first: 10, orderBy: {field: CREATED_AT, direction: DESC}) {
+        repositories(first: 20, orderBy: {field: CREATED_AT, direction: DESC}) {
           nodes {
             name
             description
