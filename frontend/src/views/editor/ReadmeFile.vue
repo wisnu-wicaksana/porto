@@ -116,11 +116,11 @@ setTimeout(typeWriter, 500)
         <!-- Baris Bawah: Tentang Saya & Fokus -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
           
-          <!-- Box: My Mission -->
+          <!-- Box: About Me -->
           <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-2 shadow-lg shadow-white/5">
-            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono"> Filosofi Kerja</h3>
-            <p class="text-slate-300 text-xs leading-relaxed">
-              {{ PROFILE.mission }}
+            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono"> About Me</h3>
+            <p class="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">
+              {{ PROFILE.about }}
             </p>
           </div>
 
