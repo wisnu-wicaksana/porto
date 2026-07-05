@@ -173,7 +173,6 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
           <!-- My Repositories Grid -->
           <div v-if="githubStore.profileData.repositories?.nodes?.length" class="space-y-4">
             <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono text-left flex items-center space-x-2">
-              <span>📁</span>
               <span>My Repositories</span>
             </h3>
             

@@ -7,6 +7,7 @@ const ReadmeFile = () => import('@/views/editor/ReadmeFile.vue')
 const ProjectsFile = () => import('@/views/editor/ProjectsFile.vue')
 const SkillsFile = () => import('@/views/editor/SkillsFile.vue')
 const ContactFile = () => import('@/views/editor/ContactFile.vue')
+const CatIdle = () => import('@/views/editor/CatIdle.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,8 +21,9 @@ const router = createRouter({
       component: EditorLayout,
       children: [
         {
-          path: '', // Default child route for /editor
-          redirect: '/editor/readme'
+          path: '', // Default child route for /editor (ketika tidak ada tab)
+          name: 'idle',
+          component: CatIdle
         },
         {
           path: 'readme',

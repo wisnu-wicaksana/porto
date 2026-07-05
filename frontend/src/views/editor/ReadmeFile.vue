@@ -74,7 +74,7 @@ setTimeout(typeWriter, 500)
       <div v-else class="font-mono space-y-6 pb-8">
         
         <!-- Baris Atas: Foto Profil & Info Cepat -->
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 pb-6 border-b border-slate-800/40">
+        <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6 pb-6 border-b border-slate-800/40">
           
           <!-- Foto Profil -->
           <div class="relative group select-none shrink-0">
@@ -90,12 +90,12 @@ setTimeout(typeWriter, 500)
           </div>
 
           <!-- Informasi Profil Ringkas -->
-          <div class="text-center md:text-left space-y-3">
+          <div class="text-center lg:text-left space-y-3">
             <div class="space-y-1">
               <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-100">
                 {{ PROFILE.name }}
               </h1>
-              <p class="text-sm md:text-base font-mono text-cyan-400 h-6">
+              <p class="text-sm md:text-base font-mono text-cyan-400 min-h-[1.5rem]">
                 {{ typedSubtitle }}<span class="animate-pulse duration-700">|</span>
               </p>
             </div>
@@ -105,7 +105,7 @@ setTimeout(typeWriter, 500)
             </p>
             
             <!-- Lokasi & Status Kerja -->
-            <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-1 text-xs font-mono">
+            <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-1 text-xs font-mono">
               <span class="bg-slate-900/60 border border-slate-800/80 px-2.5 py-1 rounded text-slate-400">
                  {{ PROFILE.location }}
               </span>

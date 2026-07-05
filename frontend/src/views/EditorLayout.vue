@@ -20,7 +20,7 @@ const openTabs = ref([
 // File yang saat ini aktif berdasarkan path rute aktif
 const activeFile = computed(() => {
   const currentPath = route.path
-  return Object.values(VIRTUAL_FILES).find(file => file.path === currentPath) || VIRTUAL_FILES.readme
+  return Object.values(VIRTUAL_FILES).find(file => file.path === currentPath) || {}
 })
 
 // Fungsi untuk beralih file
@@ -43,7 +43,7 @@ const closeTab = (file, event) => {
     if (remainingTabs.length > 0) {
       router.push(remainingTabs[remainingTabs.length - 1].path)
     } else {
-      router.push('/')
+      router.push('/editor')
     }
   }
   
@@ -82,7 +82,7 @@ const openTerminal = () => {
       <!-- Judul Dokumen/File Aktif (Tengah) -->
       <div class="text-xs text-slate-400 font-mono flex items-center space-x-2 bg-slate-900/50 px-4 md:px-6 py-1 rounded-md border border-slate-800/80 max-w-[60%] md:max-w-md truncate mx-auto">
         <span class="text-cyan-400 hidden sm:inline">⚡</span>
-        <span class="truncate">porto - {{ activeFile.name }} <span class="hidden sm:inline">- Visual Studio Code</span></span>
+        <span class="truncate">porto - {{ activeFile.name || 'Idle' }} <span class="hidden sm:inline">- Visual Studio Code</span></span>
       </div>
       
       <!-- Versi (Kanan) -->
