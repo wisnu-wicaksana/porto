@@ -2,6 +2,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGithubStore } from '@/stores/github'
+import { PROFILE } from '@/constants/profile'
 
 const router = useRouter()
 const githubStore = useGithubStore()
@@ -12,32 +13,45 @@ const currentInput = ref('')
 const commandHistory = ref([])
 const isMobileKeyboardOpen = ref(false) // Untuk mendeteksi fokus di mobile
 
-const ASCII_BANNER = `
- __      _______  _____ _   _ _    _ 
- \\ \\    / /_   _|/ ____| \\ | | |  | |
-  \\ \\  / /  | | | (___ |  \\| | |  | |
-   \\ \\/ /   | |  \\___ \\| . \` | |  | |
-    \\  /   _| |_ ____) | |\\  | |__| |
-     \\/   |_____|_____/|_| \\_|\\____/ 
-                                     
-Welcome to Wisnu's Terminal Portfolio v1.0.0
-Type 'help' to see available commands.
-`
+const WELCOME_TEXT = `Welcome to Wisnu's Terminal Portfolio v1.0.0
+Type 'help' to see available commands.`
 
-// Inisialisasi Terminal
-onMounted(() => {
-  commandHistory.value.push({ type: 'output', text: ASCII_BANNER, isAscii: true })
-  focusInput()
-  // Fetch profil GitHub di background (berjaga-jaga jika user langsung masuk ke /terminal)
-  githubStore.fetchProfile()
-})
-
-// Fungsi memfokuskan input (terutama untuk mobile keyboard)
+// Fungsi memfokuskan input (jangan auto-focus di mobile untuk mencegah browser auto-scroll layout shift)
 const focusInput = () => {
-  if (inputRef.value) {
+  if (inputRef.value && window.innerWidth >= 768) {
     inputRef.value.focus()
   }
 }
+
+// Reset scroll pada container induk
+const resetScrolls = () => {
+  window.scrollTo(0, 0)
+  document.body.scrollLeft = 0
+  const appDiv = document.getElementById('app')
+  if (appDiv) appDiv.scrollLeft = 0
+  
+  // Cari semua elemen dengan overflow-x-hidden dan reset
+  document.querySelectorAll('.overflow-x-hidden').forEach(el => {
+    el.scrollLeft = 0
+  })
+}
+
+// Inisialisasi Terminal
+onMounted(() => {
+  commandHistory.value.push({ type: 'output', text: WELCOME_TEXT, isAscii: false })
+  
+  // Reset scroll multiple times during transition
+  resetScrolls()
+  setTimeout(resetScrolls, 100)
+  setTimeout(resetScrolls, 400)
+
+  setTimeout(() => {
+    focusInput()
+  }, 400)
+
+  // Fetch profil GitHub di background
+  githubStore.fetchProfile()
+})
 
 // Handler saat command disubmit
 const handleCommand = async (e) => {
@@ -163,21 +177,19 @@ Failed to fetch live data from GitHub. Showing local fallback:
         })
 
         // Menambahkan Detail Framework & Library
-        skillsText += `\n[ FRAMEWORKS & LIBRARIES ECOSYSTEM ]\n\n`
-        skillsText += `Frontend:\n`
-        skillsText += `Vue.js 3         [█████████░] 90%\n`
-        skillsText += `Tailwind CSS v4  [█████████░] 95%\n`
-        skillsText += `React & Next.js  [████████░░] 85%\n`
-        skillsText += `Pinia & Redux    [████████░░] 88%\n\n`
-        
-        skillsText += `Backend & API:\n`
-        skillsText += `Node.js (ESM)    [████████░░] 88%\n`
-        skillsText += `Express & REST   [████████░░] 85%\n`
-        skillsText += `Vercel Functions [█████████░] 90%\n\n`
+        const detailedEcosystem = PROFILE.frameworkEcosystem
 
-        skillsText += `Database & DevOps:\n`
-        skillsText += `PostgreSQL       [████████░░] 82%\n`
-        skillsText += `Docker & CI/CD   [███████░░░] 75%\n`
+        skillsText += `\n[ FRAMEWORKS & LIBRARIES ECOSYSTEM ]\n\n`
+        detailedEcosystem.forEach(group => {
+          skillsText += `${group.category}:\n`
+          group.items.forEach(item => {
+            const filled = Math.round(item.level / 10)
+            const empty = 10 - filled
+            const bar = '█'.repeat(filled) + '░'.repeat(empty)
+            skillsText += `${item.name.padEnd(30)} [${bar}] ${item.level}%\n`
+          })
+          skillsText += '\n'
+        })
         
         commandHistory.value.push({ type: 'output', text: skillsText })
       } else {
@@ -243,15 +255,16 @@ const executeQuickCommand = (cmd) => {
     <!-- Overlay Scanline CRT -->
     <div class="pointer-events-none fixed inset-0 z-10 scanlines opacity-10"></div>
     
-    <div class="p-4 md:p-6 pb-24 md:pb-8 w-full max-w-5xl mx-auto">
+    <div class="p-4 md:p-6 pb-24 md:pb-8 w-full max-w-5xl mx-0 md:mx-auto">
       
       <!-- Command History Output -->
       <div class="space-y-2 mb-4">
         <div 
           v-for="(item, index) in commandHistory" 
           :key="index"
-          class="break-words whitespace-pre-wrap"
           :class="{
+            'whitespace-pre-wrap break-words': !item.isAscii,
+            'whitespace-pre overflow-x-auto overflow-y-hidden scrollbar-none max-w-full block': item.isAscii,
             'text-emerald-300 font-bold': item.type === 'input',
             'text-[#22c55e]': item.type === 'output',
             'leading-tight md:leading-normal': item.isAscii
@@ -266,10 +279,9 @@ const executeQuickCommand = (cmd) => {
           ref="inputRef"
           v-model="currentInput"
           type="text"
-          class="flex-1 bg-transparent border-none outline-none text-[#22c55e] font-mono shadow-none caret-emerald-400"
+          class="flex-1 bg-transparent border-none outline-none text-[#22c55e] font-mono shadow-none caret-emerald-400 text-[16px] md:text-base"
           autocomplete="off"
           spellcheck="false"
-          autofocus
           @focus="isMobileKeyboardOpen = true"
           @blur="isMobileKeyboardOpen = false"
         />
@@ -277,15 +289,15 @@ const executeQuickCommand = (cmd) => {
     </div>
 
     <!-- Quick Commands Touch-Bar (Tampil di Mobile untuk UX lebih baik) -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#020617]/90 border-t border-emerald-900/50 p-2 overflow-x-auto whitespace-nowrap scrollbar-none z-20 backdrop-blur-sm">
-      <div class="flex space-x-2 items-center px-1">
-        <span class="text-[9px] text-emerald-600/80 mr-1 uppercase">Quick:</span>
-        <button @click.stop="executeQuickCommand('help')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900">help</button>
-        <button @click.stop="executeQuickCommand('about')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900">about</button>
-        <button @click.stop="executeQuickCommand('projects')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900">projects</button>
-        <button @click.stop="executeQuickCommand('skills')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900">skills</button>
-        <button @click.stop="executeQuickCommand('clear')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900">clear</button>
-        <button @click.stop="executeQuickCommand('editor')" class="px-3 py-1.5 rounded bg-emerald-700 text-[#020617] font-bold border border-emerald-500 text-xs active:bg-emerald-600">GUI</button>
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#020617]/90 border-t border-emerald-900/50 p-3 z-20 backdrop-blur-sm">
+      <div class="flex flex-wrap justify-center gap-2 items-center">
+        <span class="text-[10px] text-emerald-600/80 uppercase font-bold w-full text-center mb-1 hidden">Quick Actions</span>
+        <button @click.stop="executeQuickCommand('help')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">help</button>
+        <button @click.stop="executeQuickCommand('about')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">about</button>
+        <button @click.stop="executeQuickCommand('projects')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">projects</button>
+        <button @click.stop="executeQuickCommand('skills')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">skills</button>
+        <button @click.stop="executeQuickCommand('clear')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">clear</button>
+        <button @click.stop="executeQuickCommand('editor')" class="px-3 py-1.5 rounded bg-emerald-700 text-[#020617] font-bold border border-emerald-500 text-xs active:bg-emerald-600 flex-1 min-w-[70px]">GUI Mode</button>
       </div>
     </div>
   </div>

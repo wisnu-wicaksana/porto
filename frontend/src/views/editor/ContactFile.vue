@@ -118,10 +118,10 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
       </div>
 
       <!-- MODE PREVIEW (Interactive Console + Contact Form) -->
-      <div v-else class="font-sans grid grid-cols-1 md:grid-cols-12 gap-6 h-full items-stretch">
+      <div v-else class="font-mono grid grid-cols-1 md:grid-cols-12 gap-6 h-full items-stretch">
         
         <!-- Kolom Kiri: Terminal Console Logger (6/12 Grid) -->
-        <div class="md:col-span-6 flex flex-col rounded-lg bg-slate-950/70 border border-slate-900 overflow-hidden min-h-[220px]">
+        <div class="md:col-span-6 flex flex-col rounded-lg bg-slate-950/70 border border-slate-900 overflow-hidden min-h-[220px] shadow-lg shadow-white/5">
           <!-- Window Header Terminal -->
           <div class="flex items-center space-x-2 px-4 py-2.5 bg-slate-900 border-b border-slate-800/50 select-none">
             <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
@@ -168,8 +168,8 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
         </div>
 
         <!-- Kolom Kanan: Contact Form (6/12 Grid) -->
-        <div class="md:col-span-6 flex flex-col justify-center p-5 rounded-lg bg-slate-900/30 border border-slate-800/40 text-left">
-          <h3 class="text-base font-bold text-slate-200 mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+        <div class="md:col-span-6 flex flex-col justify-center p-5 rounded-lg bg-slate-900/30 border border-slate-800/40 text-left shadow-lg shadow-white/5">
+          <h3 class="text-base font-bold text-slate-100 mb-4">
             Kirim Pesan Langsung
           </h3>
           

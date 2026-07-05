@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useGithubStore } from '@/stores/github'
 import { VIRTUAL_FILES } from '@/constants/files'
+import { PROFILE } from '@/constants/profile'
 
 const githubStore = useGithubStore()
 const isPreviewMode = ref(true)
@@ -40,45 +41,8 @@ const dynamicSkills = computed(() => {
   return skillsArray.sort((a, b) => b.level - a.level)
 })
 
-// 2. Ekosistem Framework & Library Detail (Manual)
-const detailedEcosystem = [
-  {
-    category: 'Frontend Ecosystem',
-    color: 'text-cyan-400',
-    borderColor: 'border-cyan-500/20',
-    items: [
-      { name: 'Vue.js 3 (Composition API)', level: 90 },
-      { name: 'React.js & Next.js', level: 85 },
-      { name: 'Tailwind CSS v4 & PostCSS', level: 95 },
-      { name: 'Pinia & Redux (State Management)', level: 88 },
-      { name: 'Vite & Webpack (Bundlers)', level: 85 }
-    ]
-  },
-  {
-    category: 'Backend Ecosystem',
-    color: 'text-green-400',
-    borderColor: 'border-green-500/20',
-    items: [
-      { name: 'Node.js (ESM)', level: 88 },
-      { name: 'Express.js & REST APIs', level: 85 },
-      { name: 'Vercel Serverless Functions', level: 90 },
-      { name: 'GraphQL (Apollo)', level: 75 },
-      { name: 'Go (Golang) Microservices', level: 60 }
-    ]
-  },
-  {
-    category: 'Database & DevOps',
-    color: 'text-yellow-400',
-    borderColor: 'border-yellow-500/20',
-    items: [
-      { name: 'PostgreSQL & MySQL (Relational)', level: 82 },
-      { name: 'MongoDB & Mongoose (NoSQL)', level: 80 },
-      { name: 'Redis (Caching)', level: 75 },
-      { name: 'Docker & Containerization', level: 70 },
-      { name: 'GitHub Actions (CI/CD)', level: 85 }
-    ]
-  }
-]
+// 2. Ekosistem Framework & Library Detail (Dari Pusat Data)
+const detailedEcosystem = PROFILE.frameworkEcosystem
 
 const softSkills = [
   { key: 'problem-solving', value: 'High' },
@@ -123,10 +87,10 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
         </div>
       </div>
 
-      <div v-else class="font-sans space-y-8 pb-8">
+      <div v-else class="font-mono space-y-8 pb-8">
         
         <!-- Live GitHub Languages -->
-        <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left">
+        <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left shadow-lg shadow-white/5">
           <h3 class="text-sm font-bold tracking-wider font-mono uppercase pb-4 border-b border-slate-800/40 mb-6 flex items-center space-x-2 text-slate-300">
             <span>📊</span>
             <span>GitHub Languages Distribution</span>
@@ -172,7 +136,7 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
             <div 
               v-for="group in detailedEcosystem" 
               :key="group.category"
-              class="p-5 rounded-lg bg-slate-900/20 border flex flex-col justify-between transition-all hover:bg-slate-800/30"
+              class="p-5 rounded-lg bg-slate-900/20 border flex flex-col justify-between transition-all hover:bg-slate-800/30 shadow-lg shadow-white/5 hover:shadow-white/10"
               :class="[group.borderColor]"
             >
               <div>
@@ -201,7 +165,7 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
         </div>
 
         <!-- Soft Skills -->
-        <div class="p-5 rounded-lg bg-slate-950/60 border border-slate-900/80 font-mono text-left space-y-3">
+        <div class="p-5 rounded-lg bg-slate-950/60 border border-slate-900/80 font-mono text-left space-y-3 shadow-lg shadow-white/5">
           <div class="flex items-center space-x-2 text-xs text-slate-500 select-none pb-2 border-b border-slate-900/60">
             <span class="text-yellow-500">⬤</span>
             <span class="text-green-500">⬤</span>

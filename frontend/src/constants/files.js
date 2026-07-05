@@ -1,73 +1,67 @@
-export const VIRTUAL_FILES = {
-  readme: {
-    name: 'README.md',
-    icon: '📄',
-    language: 'markdown',
-    path: '/editor/readme',
-    raw: `# 👨‍💻 WISNU WICAKSANA
+import { PROFILE } from './profile'
 
-> Senior Fullstack Developer & System Architect
+const generateReadmeRaw = () => {
+  const ecosystemText = PROFILE.frameworkEcosystem.map(group => {
+    const itemsText = group.items.map(item => item.name).join(', ')
+    return `- **${group.category}**: ${itemsText}`
+  }).join('\n')
+
+  return `# 👨‍💻 ${PROFILE.name.toUpperCase()}
+
+> ${PROFILE.role}
 
 ---
 
-## 🚀 About Me
-Halo! Saya Wisnu Wicaksana, seorang profesional di bidang pengembangan perangkat lunak yang berfokus pada pembangunan aplikasi web berkinerja tinggi, API yang skalabel, dan arsitektur sistem yang bersih.
+##  About Me
+Halo! Saya ${PROFILE.name}, seorang profesional di bidang pengembangan perangkat lunak yang berfokus pada pembangunan aplikasi web berkinerja tinggi, API yang skalabel, dan arsitektur sistem yang bersih.
 
 Saya sangat menyukai perpaduan antara seni pemrograman (coding) dan desain interaktif untuk menciptakan pengalaman pengguna yang luar biasa.
 
-## 🛠️ Fokus Utama
-- **Frontend**: Vue.js 3 (Composition API), React, Tailwind CSS
-- **Backend**: Node.js, Vercel Serverless, Express, Go
-- **Database**: PostgreSQL, MongoDB, Redis
-- **Prinsip**: Clean Code, DRY, SOLID, Keamanan API
+##  Core Stack / Fokus Utama
+${ecosystemText}
+- **Prinsip Utama**: Clean Code, DRY, SOLID, Scalability
 
-## 📍 Lokasi
-Jakarta, Indonesia
+##  Lokasi
+${PROFILE.location}
 
-## 🌐 Hubungi Saya
-- Email: wisnu.wicaksana@example.com
-- GitHub: github.com/wisnu-wicaksana
+##  Hubungi Saya
+- Email: ${PROFILE.contact.email}
+- GitHub: ${PROFILE.contact.github}
 
 ---
 *Petunjuk: Klik ikon "Open Preview" (ikon mata 👁️ atau split-screen) di kanan atas editor ini untuk melihat profil dalam mode visual yang estetik!*`
-  },
-  
-  projects: {
-    name: 'projects.json',
-    icon: '📦',
-    language: 'json',
-    path: '/editor/projects',
-    raw: `{
-  "featured_projects": [
-    {
-      "name": "porto-monorepo",
-      "description": "Web portofolio interaktif dengan desain UI/UX bertema Programmer (gabungan VS Code & Terminal CLI).",
-      "tech_stack": ["Vue 3", "Vite", "Tailwind v4", "Vercel Serverless"],
-      "status": "In Development",
-      "github_url": "https://github.com/wisnu-wicaksana/porto"
-    },
-    {
-      "name": "secure-api-proxy",
-      "description": "Fungsi serverless aman untuk menyembunyikan API token GitHub GraphQL dengan cache Edge Network terintegrasi.",
-      "tech_stack": ["Node.js", "Vercel Serverless", "GraphQL"],
-      "status": "Deployed",
-      "github_url": "https://github.com/wisnu-wicaksana/porto"
-    }
-  ],
-  "github_fetching": {
-    "status": "Active",
-    "endpoint": "/api/github",
-    "description": "Mengambil repositori asli & pinned secara realtime menggunakan token terenkripsi."
-  }
-}`
-  },
+}
 
-  skills: {
-    name: 'skills.css',
-    icon: '🎨',
-    language: 'css',
-    path: '/editor/skills',
-    raw: `/* KATEGORI KEAHLIAN TEKNIS */
+const generateContactRaw = () => {
+  return `#!/bin/bash
+
+# FORMULIR KONTAK INTERAKTIF (${PROFILE.name.toUpperCase()})
+
+SENDER_NAME=""
+SENDER_EMAIL=""
+MESSAGE_CONTENT=""
+
+echo "Memulai sesi kontak kirim pesan..."
+echo "----------------------------------------"
+
+function send_message() {
+  # Endpoint Vercel akan menangani pengiriman data ini
+  curl -X POST /api/contact \\
+    -H "Content-Type: application/json" \\
+    -d "{\\"name\\": \\"$SENDER_NAME\\", \\"email\\": \\"$SENDER_EMAIL\\", \\"message\\": \\"$MESSAGE_CONTENT\\"}"
+}
+
+# Hubungi saya di:
+# Email: ${PROFILE.contact.email}
+# GitHub: ${PROFILE.contact.github}
+# LinkedIn: ${PROFILE.contact.linkedin}
+
+# Jalankan skrip ini dengan mengisi formulir di samping kanan!
+# Klik 'Open Preview' di kanan atas untuk memunculkan Formulir Kontak Visual.`
+}
+
+const generateSkillsRaw = () => {
+  return `/* KATEGORI KEAHLIAN TEKNIS */
 
 .frontend-skills {
   frameworks: Vue3, React, Next.js;
@@ -97,6 +91,53 @@ Jakarta, Indonesia
   collaboration: "Excellent";
   mentorship: "Senior Level";
 }`
+}
+
+export const VIRTUAL_FILES = {
+  readme: {
+    name: 'README.md',
+    icon: '📄',
+    language: 'markdown',
+    path: '/editor/readme',
+    raw: generateReadmeRaw()
+  },
+  
+  projects: {
+    name: 'projects.json',
+    icon: '📦',
+    language: 'json',
+    path: '/editor/projects',
+    raw: `{
+  "featured_projects": [
+    {
+      "name": "porto-monorepo",
+      "description": "Web portofolio interaktif dengan desain UI/UX bertema Programmer (gabungan VS Code & Terminal CLI).",
+      "tech_stack": ["Vue 3", "Vite", "Tailwind v4", "Vercel Serverless"],
+      "status": "In Development",
+      "github_url": "https://github.com/wisnu-wicaksana/porto"
+    },
+    {
+      "name": "secure-api-proxy",
+      "description": "Fungsi serverless aman untuk menyembunyikan API token GitHub GraphQL dengan cache Edge Network terintegrasi.",
+      "tech_stack": ["Node.js", "Vercel Serverless", "GraphQL"],
+      "status": "Deployed",
+      "github_url": "https://github.com/wisnu-wicaksana/porto"
+    }
+  ],
+  "github_fetching": {
+    "status": "Active",
+    "endpoint": "/api/github",
+    "description": "Mengambil repositori asli secara realtime menggunakan token terenkripsi."
+  }
+}`
+  },
+
+  skills: {
+    name: 'skills.css',
+    icon: '🎨',
+    language: 'css',
+    path: '/editor/skills',
+    raw: generateSkillsRaw()
   },
 
   contact: {
@@ -104,25 +145,6 @@ Jakarta, Indonesia
     icon: '⚡',
     language: 'bash',
     path: '/editor/contact',
-    raw: `#!/bin/bash
-
-# FORMULIR KONTAK INTERAKTIF (WISNU WICAKSANA)
-
-SENDER_NAME=""
-SENDER_EMAIL=""
-MESSAGE_CONTENT=""
-
-echo "Memulai sesi kontak kirim pesan..."
-echo "----------------------------------------"
-
-function send_message() {
-  # Endpoint Vercel akan menangani pengiriman data ini
-  curl -X POST /api/contact \\
-    -H "Content-Type: application/json" \\
-    -d "{\\"name\\": \\"$SENDER_NAME\\", \\"email\\": \\"$SENDER_EMAIL\\", \\"message\\": \\"$MESSAGE_CONTENT\\"}"
-}
-
-# Jalankan skrip ini dengan mengisi formulir di samping kanan!
-# Klik 'Open Preview' di kanan atas untuk memunculkan Formulir Kontak Visual.`
+    raw: generateContactRaw()
   }
 };

@@ -4,6 +4,7 @@ import { useGithubStore } from '@/stores/github'
 import { VIRTUAL_FILES } from '@/constants/files'
 
 const isPreviewMode = ref(true)
+const isZoomed = ref(false)
 const githubStore = useGithubStore()
 
 onMounted(async () => {
@@ -78,7 +79,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
       </div>
 
       <!-- MODE PREVIEW (GitHub API Dashboard) -->
-      <div v-else class="font-sans space-y-6">
+      <div v-else class="font-mono space-y-6">
         
         <!-- Loading State -->
         <div v-if="githubStore.loading" class="flex flex-col items-center justify-center py-16 space-y-4">
@@ -88,7 +89,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
 
         <!-- Error / Offline / Token missing state -> FALLBACK VIEW -->
         <div v-else-if="githubStore.error || !githubStore.profileData" class="space-y-6">
-          <div class="p-4 rounded-lg bg-yellow-950/20 border border-yellow-800/30 text-yellow-400 text-left flex items-start space-x-3">
+          <div class="p-4 rounded-lg bg-yellow-950/20 border border-yellow-800/30 text-yellow-400 text-left flex items-start space-x-3 shadow-lg shadow-white/5">
             <span class="text-lg">⚠️</span>
             <div class="text-xs space-y-1">
               <p class="font-bold">Offline / Local Mode</p>
@@ -105,7 +106,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
               <div 
                 v-for="project in localProjects" 
                 :key="project.name"
-                class="p-5 rounded-lg bg-slate-900/30 border border-slate-800/60 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all text-left group"
+                class="p-5 rounded-lg bg-slate-900/30 border border-slate-800/60 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all text-left group shadow-lg shadow-white/5 hover:shadow-white/10"
               >
                 <div class="space-y-3">
                   <div class="flex justify-between items-center">
@@ -147,11 +148,13 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
         <div v-else class="space-y-8">
           
           <!-- GitHub Profile Header Summary -->
-          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-slate-950/40 border border-slate-900/80 text-left">
+          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-slate-950/40 border border-slate-900/80 text-left shadow-lg shadow-white/5">
             <img 
               :src="githubStore.profileData.avatarUrl" 
               alt="GitHub Avatar" 
-              class="w-14 h-14 rounded-full border border-cyan-500/50"
+              class="w-20 h-20 rounded-full border border-cyan-500/50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
+              @click="isZoomed = true"
+              title="Perbesar Foto"
             />
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -186,7 +189,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
               <div 
                 v-for="repo in githubStore.profileData.repositories.nodes" 
                 :key="'recent-'+repo.name"
-                class="p-4 rounded-lg bg-slate-900/10 border border-slate-800/40 flex flex-col justify-between hover:border-slate-500/40 hover:bg-slate-800/20 transition-all text-left group"
+                class="p-4 rounded-lg bg-slate-900/10 border border-slate-800/40 flex flex-col justify-between hover:border-slate-500/40 hover:bg-slate-800/20 transition-all text-left group shadow-lg shadow-white/5 hover:shadow-white/10"
               >
                 <div class="space-y-2">
                   <div class="flex justify-between items-start gap-2">
@@ -235,6 +238,22 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
       </div>
 
     </div>
+    
+    <!-- Overlay Zoom Foto -->
+    <transition name="fade-editor">
+      <div 
+        v-if="isZoomed && githubStore.profileData" 
+        class="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out"
+        @click="isZoomed = false"
+      >
+        <img 
+          :src="githubStore.profileData.avatarUrl" 
+          alt="GitHub Avatar Zoomed" 
+          class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl shadow-cyan-500/20"
+          @click.stop
+        />
+      </div>
+    </transition>
   </div>
 </template>
 

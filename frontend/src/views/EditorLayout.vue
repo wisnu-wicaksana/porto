@@ -57,21 +57,21 @@ const openTerminal = () => {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col overflow-hidden bg-[#0a0e17] text-[#abb2bf] font-sans selection:bg-cyan-500/30">
+  <div class="h-screen w-screen flex flex-col overflow-hidden bg-[#0a0a0a] text-[#d4d4d8] font-mono selection:bg-cyan-500/30">
     
     <!-- 1. TITLEBAR (Atas - Gaya MacOS Window) -->
-    <header class="h-10 bg-[#070a13] border-b border-slate-800 flex items-center justify-between px-4 select-none shrink-0 z-20">
+    <header class="h-10 bg-[#0a0a0a] border-b border-slate-800 flex items-center justify-between px-4 select-none shrink-0 z-20">
       <!-- Tombol Window (Kiri) -->
-      <div class="flex items-center space-x-2 w-1/4">
+      <div class="hidden md:flex items-center space-x-2 w-1/4">
         <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
         <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
         <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
       </div>
       
       <!-- Judul Dokumen/File Aktif (Tengah) -->
-      <div class="text-xs text-slate-400 font-mono flex items-center space-x-2 bg-slate-900/50 px-6 py-1 rounded-md border border-slate-800/80 max-w-md truncate">
-        <span class="text-cyan-400">⚡</span>
-        <span>porto - {{ activeFile.name }} - Visual Studio Code</span>
+      <div class="text-xs text-slate-400 font-mono flex items-center space-x-2 bg-slate-900/50 px-4 md:px-6 py-1 rounded-md border border-slate-800/80 max-w-[60%] md:max-w-md truncate mx-auto">
+        <span class="text-cyan-400 hidden sm:inline">⚡</span>
+        <span class="truncate">porto - {{ activeFile.name }} <span class="hidden sm:inline">- Visual Studio Code</span></span>
       </div>
       
       <!-- Search Mockup / Menu Toggle Mobile (Kanan) -->
@@ -92,7 +92,7 @@ const openTerminal = () => {
     <div class="flex-1 flex overflow-hidden relative">
 
       <!-- 2. ACTIVITY BAR (Sisi Kiri Desktop - Navigasi Vertikal) -->
-      <nav class="hidden md:flex flex-col w-12 bg-[#05070d] border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
+      <nav class="hidden md:flex flex-col w-12 bg-[#0a0a0a] border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
         <!-- Grup Ikon Atas -->
         <div class="flex flex-col space-y-6 w-full items-center">
           <!-- File Explorer Icon (Active) -->
@@ -127,7 +127,7 @@ const openTerminal = () => {
 
       <!-- 3. SIDEBAR FILE EXPLORER (Desktop & Mobile Overlay Drawer) -->
       <aside 
-        class="w-60 bg-[#070a13] border-r border-slate-800/80 flex flex-col select-none shrink-0 transition-transform duration-300 z-10
+        class="w-60 bg-[#0a0a0a] border-r border-slate-800/80 flex flex-col select-none shrink-0 transition-transform duration-300 z-10
                absolute md:static top-0 bottom-0 left-0 h-full
                md:translate-x-0"
         :class="isMobileSidebarOpen ? 'translate-x-0 shadow-2xl shadow-cyan-950/40' : '-translate-x-full md:translate-x-0'"
@@ -182,17 +182,17 @@ const openTerminal = () => {
       ></div>
 
       <!-- 4. EDITOR PANEL (Tengah - Menampilkan Tab & Content) -->
-      <main class="flex-1 flex flex-col overflow-hidden bg-[#0b0f19]">
+      <main class="flex-1 flex flex-col overflow-hidden bg-[#000000]">
         <!-- TABS BAR (Tab File Terbuka di Atas) -->
-        <div class="h-9 bg-[#070a13] border-b border-slate-800/80 flex items-center overflow-x-auto scrollbar-none select-none shrink-0">
+        <div class="h-9 bg-[#0a0a0a] border-b border-slate-800/80 flex items-center overflow-x-auto scrollbar-none select-none shrink-0">
           <div class="flex items-center h-full">
             <button 
               v-for="tab in openTabs"
               :key="tab.path"
               @click="selectFile(tab)"
               class="h-full flex items-center space-x-2 px-4 border-r border-slate-800/60 text-xs font-mono transition-all interactive
-                     hover:bg-[#0b0f19]/80"
-              :class="activeFile.path === tab.path ? 'bg-[#0b0f19] text-cyan-400 border-t-2 border-t-cyan-400 font-medium' : 'text-slate-500 bg-[#06080e]/40'"
+                     hover:bg-[#000000]"
+              :class="activeFile.path === tab.path ? 'bg-[#000000] text-cyan-400 border-t-2 border-t-cyan-400 font-medium' : 'text-slate-500 bg-[#0a0a0a]/40'"
             >
               <span>{{ tab.icon }}</span>
               <span>{{ tab.name }}</span>
@@ -205,9 +205,9 @@ const openTerminal = () => {
           </div>
         </div>
 
-        <!-- AREA UTAMA RENDERING VIEW (DENGAN GLASSMORPHISM EFFECT) -->
-        <div class="flex-1 overflow-y-auto relative p-4 md:p-6 bg-radial from-[#0e1626] to-[#0b0f19]">
-          <div class="max-w-4xl mx-auto h-full rounded-lg border border-slate-800/50 bg-[#0d1321]/70 backdrop-blur-md shadow-2xl p-4 md:p-6">
+        <!-- AREA UTAMA RENDERING VIEW -->
+        <div class="flex-1 overflow-y-auto relative p-0 md:p-6 bg-[#000000]">
+          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-[#000000] p-4 md:p-6 pb-20 md:pb-6">
             <!-- Router View dengan Transisi Mulus -->
             <RouterView v-slot="{ Component }">
               <transition name="fade-editor" mode="out-in">
@@ -220,7 +220,7 @@ const openTerminal = () => {
     </div>
 
     <!-- 5. STATUS BAR (Bawah) -->
-    <footer class="h-6 bg-[#070a13] border-t border-slate-800/80 flex justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
+    <footer class="hidden md:flex h-6 bg-[#0a0a0a] border-t border-slate-800/80 justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
       <div class="flex items-center space-x-4">
         <!-- Git Branch -->
         <span class="flex items-center space-x-1 text-cyan-500">
@@ -243,25 +243,25 @@ const openTerminal = () => {
     </footer>
 
     <!-- 6. BAR NAVIGASI MOBILE (Hanya Tampil di Mobile - Bottom Nav) -->
-    <nav class="md:hidden h-14 bg-[#05070d] border-t border-slate-800 flex justify-around items-center px-2 select-none shrink-0 z-20">
+    <nav class="md:hidden h-[60px] bg-[#0a0a0a] border-t border-slate-800 flex justify-around items-center px-1 select-none shrink-0 z-20 fixed bottom-0 w-full">
       <button 
         v-for="file in VIRTUAL_FILES" 
         :key="file.name"
         @click="selectFile(file)"
-        class="flex flex-col items-center justify-center space-y-1 text-slate-500 py-1 px-3 rounded-md transition-all interactive"
+        class="flex flex-col items-center justify-center space-y-1 text-slate-500 p-1 w-1/5 rounded-md transition-all interactive"
         :class="{ 'text-cyan-400 bg-cyan-950/20': activeFile.path === file.path }"
       >
-        <span class="text-lg">{{ file.icon }}</span>
-        <span class="text-[9px] font-mono">{{ file.name.split('.')[0].toUpperCase() }}</span>
+        <span class="text-xl">{{ file.icon }}</span>
+        <span class="text-[8px] font-mono truncate w-full text-center">{{ file.name.split('.')[0].toUpperCase() }}</span>
       </button>
       
       <!-- Terminal button -->
       <button 
         @click="openTerminal"
-        class="flex flex-col items-center justify-center space-y-1 text-slate-500 py-1 px-3 rounded-md transition-all interactive"
+        class="flex flex-col items-center justify-center space-y-1 text-slate-500 p-1 w-1/5 rounded-md transition-all interactive"
       >
-        <span class="text-lg text-green-400">💻</span>
-        <span class="text-[9px] font-mono text-green-400">CLI</span>
+        <span class="text-xl text-green-400">💻</span>
+        <span class="text-[8px] font-mono text-green-400 truncate w-full text-center">CLI</span>
       </button>
     </nav>
   </div>
