@@ -48,16 +48,8 @@ setTimeout(typeWriter, 500)
     <!-- Header panel Editor File -->
     <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
       <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs">📂 src / views / editor / README.md</span>
+        <span class="text-xs"> src / views / editor / README.md</span>
       </div>
-      
-      <!-- Tombol Toggle Preview -->
-      <button 
-        @click="isPreviewMode = !isPreviewMode"
-        class="flex items-center space-x-1.5 py-1 px-3 rounded bg-slate-800/80 hover:bg-cyan-950/40 text-slate-300 hover:text-cyan-400 border border-slate-700/60 hover:border-cyan-800/80 transition-all text-xs interactive"
-      >
-        <span>{{ isPreviewMode ? '📝 Show Source' : '👁️ Open Preview' }}</span>
-      </button>
     </div>
 
     <!-- AREA UTAMA -->
@@ -86,7 +78,6 @@ setTimeout(typeWriter, 500)
                 class="w-full h-full object-cover"
               />
             </div>
-            <span class="absolute bottom-1 right-2 w-5 h-5 rounded-full bg-green-500 border-4 border-[#0d1321] flex items-center justify-center" title="Active Coding"></span>
           </div>
 
           <!-- Informasi Profil Ringkas -->
@@ -107,10 +98,7 @@ setTimeout(typeWriter, 500)
             <!-- Lokasi & Status Kerja -->
             <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-1 text-xs font-mono">
               <span class="bg-slate-900/60 border border-slate-800/80 px-2.5 py-1 rounded text-slate-400">
-                📍 {{ PROFILE.location }}
-              </span>
-              <span class="bg-green-950/20 border border-green-800/30 px-2.5 py-1 rounded text-green-400">
-                🟢 {{ PROFILE.status }}
+                 {{ PROFILE.location }}
               </span>
             </div>
           </div>

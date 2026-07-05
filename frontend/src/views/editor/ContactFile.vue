@@ -94,16 +94,8 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
     <!-- Header panel Editor File -->
     <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
       <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs">📂 src / views / editor / contact.sh</span>
+        <span class="text-xs"> src / views / editor / contact.sh</span>
       </div>
-      
-      <!-- Tombol Toggle Preview -->
-      <button 
-        @click="isPreviewMode = !isPreviewMode"
-        class="flex items-center space-x-1.5 py-1 px-3 rounded bg-slate-800/80 hover:bg-cyan-950/40 text-slate-300 hover:text-cyan-400 border border-slate-700/60 hover:border-cyan-800/80 transition-all text-xs interactive"
-      >
-        <span>{{ isPreviewMode ? '📝 Show Source' : '👁️ Open Preview' }}</span>
-      </button>
     </div>
 
     <!-- AREA UTAMA -->

@@ -55,16 +55,8 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
     <!-- Header panel Editor File -->
     <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
       <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs">📂 src / views / editor / projects.json</span>
+        <span class="text-xs"> src / views / editor / projects.json</span>
       </div>
-      
-      <!-- Tombol Toggle Preview -->
-      <button 
-        @click="isPreviewMode = !isPreviewMode"
-        class="flex items-center space-x-1.5 py-1 px-3 rounded bg-slate-800/80 hover:bg-cyan-950/40 text-slate-300 hover:text-cyan-400 border border-slate-700/60 hover:border-cyan-800/80 transition-all text-xs interactive"
-      >
-        <span>{{ isPreviewMode ? '📝 Show Source' : '👁️ Open Preview' }}</span>
-      </button>
     </div>
 
     <!-- AREA UTAMA -->
@@ -101,7 +93,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
 
           <!-- Grid Featured Projects Lokal -->
           <div class="space-y-4">
-            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono text-left">⭐ Featured Projects (Local Source)</h3>
+            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono text-left"> Featured Projects (Local Source)</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div 
                 v-for="project in localProjects" 

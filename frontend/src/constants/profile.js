@@ -49,8 +49,8 @@ export const PROFILE = {
   role: 'Senior Fullstack Developer & System Architect',
   bio: 'Saya adalah seorang fullstack developer yang suka mengubah logika kompleks menjadi antarmuka pengguna yang bersih, responsif, dan menyenangkan untuk dijelajahi.',
   avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80',
-  location: 'Jakarta, Indonesia',
-  status: 'Available for Projects',
+  location: 'Jawa Tengah , Indonesia',
+  
   
   mission: 'Saya percaya bahwa kode bukan sekadar barisan teks, melainkan instrumen untuk memecahkan masalah nyata. Saya membangun aplikasi dengan prinsip **SOLID**, menjaga efisiensi memori, serta memastikan performa rendering frontend selalu optimal demi kenyamanan pengguna akhir.',
   

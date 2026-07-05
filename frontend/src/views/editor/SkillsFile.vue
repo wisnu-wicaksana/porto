@@ -68,15 +68,8 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
   <div class="h-full flex flex-col font-mono text-sm">
     <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
       <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs">📂 src / views / editor / skills.css</span>
+        <span class="text-xs"> src / views / editor / skills.css</span>
       </div>
-      
-      <button 
-        @click="isPreviewMode = !isPreviewMode"
-        class="flex items-center space-x-1.5 py-1 px-3 rounded bg-slate-800/80 hover:bg-cyan-950/40 text-slate-300 hover:text-cyan-400 border border-slate-700/60 hover:border-cyan-800/80 transition-all text-xs interactive"
-      >
-        <span>{{ isPreviewMode ? '📝 Show Source' : '👁️ Open Preview' }}</span>
-      </button>
     </div>
 
     <div class="flex-1 overflow-y-auto pr-2">
@@ -92,7 +85,6 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
         <!-- Live GitHub Languages -->
         <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left shadow-lg shadow-white/5">
           <h3 class="text-sm font-bold tracking-wider font-mono uppercase pb-4 border-b border-slate-800/40 mb-6 flex items-center space-x-2 text-slate-300">
-            <span>📊</span>
             <span>GitHub Languages Distribution</span>
           </h3>
           
@@ -128,7 +120,6 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
         <!-- Detailed Frameworks & Libraries Grid -->
         <div class="space-y-4 text-left">
           <h3 class="text-sm font-bold tracking-wider font-mono uppercase pb-2 flex items-center space-x-2 text-slate-300">
-            <span>⚡</span>
             <span>Frameworks & Libraries Ecosystem</span>
           </h3>
           

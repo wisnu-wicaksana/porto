@@ -61,11 +61,22 @@ const openTerminal = () => {
     
     <!-- 1. TITLEBAR (Atas - Gaya MacOS Window) -->
     <header class="h-10 bg-[#0a0a0a] border-b border-slate-800 flex items-center justify-between px-4 select-none shrink-0 z-20">
-      <!-- Tombol Window (Kiri) -->
-      <div class="hidden md:flex items-center space-x-2 w-1/4">
-        <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
-        <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
-        <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
+      <!-- Tombol Window & Toggle Files (Kiri) -->
+      <div class="flex items-center w-1/4">
+        <!-- Tombol Window (Hanya Desktop) -->
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
+          <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
+          <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
+        </div>
+        <!-- Button Toggle Sidebar (Hanya Mobile) -->
+        <button 
+          @click="isMobileSidebarOpen = !isMobileSidebarOpen"
+          class="md:hidden p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all interactive"
+          aria-label="Toggle File Explorer"
+        >
+          <span class="text-xs font-mono font-bold">{{ isMobileSidebarOpen ? 'CLOSE' : 'FILES' }}</span>
+        </button>
       </div>
       
       <!-- Judul Dokumen/File Aktif (Tengah) -->
@@ -74,16 +85,8 @@ const openTerminal = () => {
         <span class="truncate">porto - {{ activeFile.name }} <span class="hidden sm:inline">- Visual Studio Code</span></span>
       </div>
       
-      <!-- Search Mockup / Menu Toggle Mobile (Kanan) -->
+      <!-- Versi (Kanan) -->
       <div class="flex justify-end items-center space-x-3 w-1/4">
-        <!-- Button Toggle Sidebar untuk Mobile -->
-        <button 
-          @click="isMobileSidebarOpen = !isMobileSidebarOpen"
-          class="md:hidden p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all interactive"
-          aria-label="Toggle File Explorer"
-        >
-          <span class="text-xs font-mono font-bold">{{ isMobileSidebarOpen ? 'CLOSE' : 'FILES' }}</span>
-        </button>
         <span class="hidden md:inline-block text-[11px] text-slate-500 font-mono">v1.0.0</span>
       </div>
     </header>
@@ -97,7 +100,7 @@ const openTerminal = () => {
         <div class="flex flex-col space-y-6 w-full items-center">
           <!-- File Explorer Icon (Active) -->
           <button class="w-full text-cyan-400 border-l-2 border-cyan-400 py-1.5 flex justify-center hover:text-white transition-all interactive" title="Explorer">
-            <span class="text-xl">📁</span>
+            <span class="text-xs font-bold tracking-widest">EX</span>
           </button>
           
           <!-- Direct Link ke Rute-Rute File -->
@@ -109,7 +112,7 @@ const openTerminal = () => {
             :class="{ '!text-cyan-400': activeFile.path === file.path }"
             :title="file.name"
           >
-            <span>{{ file.icon }}</span>
+            <span class="text-[10px] font-bold tracking-wider uppercase">{{ file.name.substring(0,2) }}</span>
           </button>
         </div>
         
@@ -120,7 +123,7 @@ const openTerminal = () => {
             class="p-2 rounded text-slate-500 hover:text-green-400 transition-all text-xl interactive hover:scale-110"
             title="Buka Terminal CLI"
           >
-            <span>💻</span>
+            <span class="text-xs font-bold tracking-widest">CLI</span>
           </button>
         </div>
       </nav>
@@ -139,8 +142,7 @@ const openTerminal = () => {
         <!-- Tree View Root Folder -->
         <div class="flex-1 overflow-y-auto p-2 text-sm font-mono">
           <div class="flex items-center space-x-1.5 text-slate-300 py-1 px-2 font-bold">
-            <span class="text-slate-500">▼</span>
-            <span>📂 wisnu-porto</span>
+            <span>wisnu-porto</span>
           </div>
           
           <!-- Virtual Files List -->
@@ -154,8 +156,7 @@ const openTerminal = () => {
               :class="activeFile.path === file.path ? 'bg-cyan-950/30 text-cyan-400 font-medium border-l border-cyan-400/50' : 'text-slate-400'"
             >
               <div class="flex items-center space-x-2">
-                <span>{{ file.icon }}</span>
-                <span>{{ file.name }}</span>
+                <span class="truncate">{{ file.name }}</span>
               </div>
               <span v-if="activeFile.path === file.path" class="text-[9px] bg-cyan-950 text-cyan-400 px-1 rounded-sm border border-cyan-800/50">ACTIVE</span>
             </button>
@@ -168,7 +169,7 @@ const openTerminal = () => {
             @click="openTerminal"
             class="w-full flex items-center justify-center space-x-2 py-1.5 px-3 rounded bg-green-950/40 hover:bg-green-900/40 text-green-400 border border-green-800/40 hover:border-green-600/50 transition-all font-mono text-xs interactive"
           >
-            <span>💻</span>
+            <span class="font-bold">>_</span>
             <span>run_terminal.sh</span>
           </button>
         </div>
@@ -194,7 +195,6 @@ const openTerminal = () => {
                      hover:bg-[#000000]"
               :class="activeFile.path === tab.path ? 'bg-[#000000] text-cyan-400 border-t-2 border-t-cyan-400 font-medium' : 'text-slate-500 bg-[#0a0a0a]/40'"
             >
-              <span>{{ tab.icon }}</span>
               <span>{{ tab.name }}</span>
               <!-- Tombol Tutup Tab -->
               <span 
@@ -207,7 +207,7 @@ const openTerminal = () => {
 
         <!-- AREA UTAMA RENDERING VIEW -->
         <div class="flex-1 overflow-y-auto relative p-0 md:p-6 bg-[#000000]">
-          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-[#000000] p-4 md:p-6 pb-20 md:pb-6">
+          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-[#000000] p-4 md:p-6 pb-6">
             <!-- Router View dengan Transisi Mulus -->
             <RouterView v-slot="{ Component }">
               <transition name="fade-editor" mode="out-in">
@@ -224,8 +224,7 @@ const openTerminal = () => {
       <div class="flex items-center space-x-4">
         <!-- Git Branch -->
         <span class="flex items-center space-x-1 text-cyan-500">
-          <span class="text-xs">🌿</span>
-          <span class="font-bold">main*</span>
+          <span class="font-bold ml-1">main*</span>
         </span>
         <!-- GitHub API Status Indicator -->
         <span class="flex items-center space-x-1">
@@ -241,29 +240,6 @@ const openTerminal = () => {
         <span class="text-purple-400 font-bold hidden sm:inline">Vercel Serverless v20</span>
       </div>
     </footer>
-
-    <!-- 6. BAR NAVIGASI MOBILE (Hanya Tampil di Mobile - Bottom Nav) -->
-    <nav class="md:hidden h-[60px] bg-[#0a0a0a] border-t border-slate-800 flex justify-around items-center px-1 select-none shrink-0 z-20 fixed bottom-0 w-full">
-      <button 
-        v-for="file in VIRTUAL_FILES" 
-        :key="file.name"
-        @click="selectFile(file)"
-        class="flex flex-col items-center justify-center space-y-1 text-slate-500 p-1 w-1/5 rounded-md transition-all interactive"
-        :class="{ 'text-cyan-400 bg-cyan-950/20': activeFile.path === file.path }"
-      >
-        <span class="text-xl">{{ file.icon }}</span>
-        <span class="text-[8px] font-mono truncate w-full text-center">{{ file.name.split('.')[0].toUpperCase() }}</span>
-      </button>
-      
-      <!-- Terminal button -->
-      <button 
-        @click="openTerminal"
-        class="flex flex-col items-center justify-center space-y-1 text-slate-500 p-1 w-1/5 rounded-md transition-all interactive"
-      >
-        <span class="text-xl text-green-400">💻</span>
-        <span class="text-[8px] font-mono text-green-400 truncate w-full text-center">CLI</span>
-      </button>
-    </nav>
   </div>
 </template>
 
