@@ -3,6 +3,7 @@ import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGithubStore } from '@/stores/github'
 import { PROFILE } from '@/constants/profile'
+import TerminalSnake from '@/components/TerminalSnake.vue'
 
 const router = useRouter()
 const githubStore = useGithubStore()
@@ -92,7 +93,8 @@ const executeCommand = async (cmd) => {
   contact   - Show contact information
   clear     - Clear the terminal screen
   editor    - Switch back to the VS Code GUI mode
-  gui       - Alias for 'editor'`
+  gui       - Alias for 'editor'
+  snake     -  Play the classic Snake game!`
       })
       break
 
@@ -100,7 +102,7 @@ const executeCommand = async (cmd) => {
       commandHistory.value.push({ 
         type: 'output', 
         text: `Hi! I'm Wisnu Wicaksana.
-A Senior Fullstack Developer & System Architect based in Jakarta, Indonesia.
+A Junior Fullstack Developer  based in Jawa Tengah, Indonesia.
 I specialize in building high-performance web applications, scalable APIs, 
 and clean system architectures using modern technologies like Vue 3, React, 
 Node.js, and Serverless frameworks.
@@ -213,6 +215,13 @@ Type 'editor' and go to contact.sh to send a direct message!`
       })
       break
 
+    case 'snake':
+      commandHistory.value.push({
+        type: 'component',
+        component: 'snake'
+      })
+      break
+
     case 'clear':
       commandHistory.value = []
       break
@@ -244,11 +253,6 @@ const scrollToBottom = () => {
   })
 }
 
-// Fungsi eksekusi dari tombol cepat (Mobile Touch-Bar)
-const executeQuickCommand = (cmd) => {
-  executeCommand(cmd)
-  focusInput()
-}
 </script>
 
 <template>
@@ -267,13 +271,20 @@ const executeQuickCommand = (cmd) => {
           v-for="(item, index) in commandHistory" 
           :key="index"
           :class="{
-            'whitespace-pre-wrap break-words': !item.isAscii,
+            'whitespace-pre-wrap break-words': item.type !== 'component' && !item.isAscii,
             'whitespace-pre overflow-x-auto overflow-y-hidden scrollbar-none max-w-full block': item.isAscii,
             'text-emerald-300 font-bold': item.type === 'input',
             'text-[#22c55e]': item.type === 'output',
             'leading-tight md:leading-normal': item.isAscii
           }"
-        >{{ item.text }}</div>
+        >
+          <template v-if="item.type === 'component' && item.component === 'snake'">
+            <TerminalSnake />
+          </template>
+          <template v-else>
+            {{ item.text }}
+          </template>
+        </div>
       </div>
 
       <!-- Current Input Line -->
@@ -292,18 +303,7 @@ const executeQuickCommand = (cmd) => {
       </form>
     </div>
 
-    <!-- Quick Commands Touch-Bar (Tampil di Mobile untuk UX lebih baik) -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#020617]/90 border-t border-emerald-900/50 p-3 z-20 backdrop-blur-sm">
-      <div class="flex flex-wrap justify-center gap-2 items-center">
-        <span class="text-[10px] text-emerald-600/80 uppercase font-bold w-full text-center mb-1 hidden">Quick Actions</span>
-        <button @click.stop="executeQuickCommand('help')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">help</button>
-        <button @click.stop="executeQuickCommand('about')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">about</button>
-        <button @click.stop="executeQuickCommand('projects')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">projects</button>
-        <button @click.stop="executeQuickCommand('skills')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">skills</button>
-        <button @click.stop="executeQuickCommand('clear')" class="px-3 py-1.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/60 text-xs active:bg-emerald-900 flex-1 min-w-[70px]">clear</button>
-        <button @click.stop="executeQuickCommand('editor')" class="px-3 py-1.5 rounded bg-emerald-700 text-[#020617] font-bold border border-emerald-500 text-xs active:bg-emerald-600 flex-1 min-w-[70px]">GUI Mode</button>
-      </div>
-    </div>
+
   </div>
 </template>
 
