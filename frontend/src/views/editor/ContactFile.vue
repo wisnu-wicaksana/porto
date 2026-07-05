@@ -49,8 +49,7 @@ const handleSend = async () => {
         Accept: 'application/json'
       },
       body: JSON.stringify({
-        // TODO: Ganti access_key ini dengan milik Anda!
-        access_key: 'YOUR_ACCESS_KEY_HERE', 
+        access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY, 
         name: name.value,
         email: email.value,
         message: message.value
@@ -75,7 +74,7 @@ const handleSend = async () => {
       addLog('error', `ERROR: ${result.message || 'Failed to send message.'}`)
       addLog('input', 'Silakan coba lagi nanti.')
     }
-  } catch (error) {
+  } catch {
     isSubmitting.value = false
     addLog('error', 'ERROR: Network error. Cannot reach the server.')
     addLog('input', 'Periksa koneksi internet Anda dan coba lagi.')
