@@ -1,9 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { PROFILE } from '@/constants/profile'
 import { VIRTUAL_FILES } from '@/constants/files'
+import { useGithubStore } from '@/stores/github'
 
+const githubStore = useGithubStore()
 const isPreviewMode = ref(true)
+const isZoomed = ref(false)
+
+onMounted(() => {
+  githubStore.fetchProfile()
+})
 
 // Isi Markdown mentah untuk tampilan Raw Code
 const rawMarkdownLines = VIRTUAL_FILES.readme.raw.split('\n')
@@ -73,9 +80,11 @@ setTimeout(typeWriter, 500)
           <div class="relative group select-none shrink-0">
             <div class="relative w-32 h-32 rounded-full overflow-hidden border border-slate-700 bg-slate-900 flex items-center justify-center">
               <img 
-                :src="PROFILE.avatarUrl" 
+                :src="githubStore.profileData?.avatarUrl || PROFILE.avatarUrl" 
                 :alt="PROFILE.name"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                @click="isZoomed = true"
+                title="Perbesar Foto"
               />
             </div>
           </div>
@@ -128,5 +137,21 @@ setTimeout(typeWriter, 500)
         </div>
       </div>
     </div>
+    
+    <!-- Overlay Zoom Foto -->
+    <transition name="fade-editor">
+      <div 
+        v-if="isZoomed" 
+        class="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out"
+        @click="isZoomed = false"
+      >
+        <img 
+          :src="githubStore.profileData?.avatarUrl || PROFILE.avatarUrl" 
+          alt="Avatar Zoomed" 
+          class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl shadow-cyan-500/20"
+          @click.stop
+        />
+      </div>
+    </transition>
   </div>
 </template>
