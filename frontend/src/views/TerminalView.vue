@@ -201,9 +201,13 @@ Failed to fetch live data from GitHub. Showing local fallback:
       commandHistory.value.push({ 
         type: 'output', 
         text: `[ CONTACT INFO ]
-Email   : wisnu.wicaksana@example.com
-GitHub  : github.com/wisnu-wicaksana
-Address : Jakarta, Indonesia
+Email     : ${PROFILE.contact.email}
+GitHub    : ${PROFILE.contact.github}
+LinkedIn  : ${PROFILE.contact.linkedin}
+Instagram : ${PROFILE.contact.instagram}
+Threads   : ${PROFILE.contact.threads}
+Facebook  : ${PROFILE.contact.facebook}
+WhatsApp  : ${PROFILE.contact.whatsapp}
 
 Type 'editor' and go to contact.sh to send a direct message!` 
       })

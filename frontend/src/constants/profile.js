@@ -62,6 +62,7 @@ export const PROFILE = {
     instagram: 'https://www.instagram.com/wisnnnnnuuuuu/',
     threads: 'https://www.threads.com/@wisnnnnnuuuuu',
     facebook: 'https://www.facebook.com/wisnu.wicaksana.7',
+    whatsapp: 'https://wa.me/62895364849610',
 
   },
 

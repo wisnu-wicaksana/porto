@@ -27,6 +27,11 @@ ${PROFILE.location}
 ##  Hubungi Saya
 - Email: ${PROFILE.contact.email}
 - GitHub: ${PROFILE.contact.github}
+- LinkedIn: ${PROFILE.contact.linkedin}
+- Instagram: ${PROFILE.contact.instagram}
+- Threads: ${PROFILE.contact.threads}
+- Facebook: ${PROFILE.contact.facebook}
+- WhatsApp: ${PROFILE.contact.whatsapp}
 
 ---
 *Petunjuk: Klik ikon "Open Preview" (ikon mata 👁️ atau split-screen) di kanan atas editor ini untuk melihat profil dalam mode visual yang estetik!*`
@@ -55,6 +60,10 @@ function send_message() {
 # Email: ${PROFILE.contact.email}
 # GitHub: ${PROFILE.contact.github}
 # LinkedIn: ${PROFILE.contact.linkedin}
+# Instagram: ${PROFILE.contact.instagram}
+# Threads: ${PROFILE.contact.threads}
+# Facebook: ${PROFILE.contact.facebook}
+# WhatsApp: ${PROFILE.contact.whatsapp}
 
 # Jalankan skrip ini dengan mengisi formulir di samping kanan!
 # Klik 'Open Preview' di kanan atas untuk memunculkan Formulir Kontak Visual.`
