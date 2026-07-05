@@ -2,7 +2,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const GRID_SIZE = 20
-const CELL_SIZE = 15 // not strictly needed for grid logic, but just conceptually 20x20 cells
 
 const snake = ref([{ x: 10, y: 10 }])
 const food = ref({ x: 5, y: 5 })

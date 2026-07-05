@@ -37,13 +37,6 @@ const frameworkEcosystemData = [
   }
 ]
 
-// Sinkronisasi Core Stack secara otomatis dengan mengambil 6 skill dengan level tertinggi
-const allSkills = frameworkEcosystemData.flatMap(group => group.items)
-const topSkills = allSkills
-  .sort((a, b) => b.level - a.level)
-  .slice(0, 6)
-  .map(item => item.name)
-
 export const PROFILE = {
   name: 'Wisnu Wicaksana',
   role: 'Junior Fullstack Developer | Frontend Enthusiast',

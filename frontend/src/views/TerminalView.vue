@@ -74,7 +74,9 @@ const handleCommand = async (e) => {
 }
 
 // Fungsi eksekusi perintah (Bisa dipanggil oleh text input atau quick action button)
-const executeCommand = async (cmd) => {
+const executeCommand = async (rawCmd) => {
+  const cmd = rawCmd.trim().toLowerCase()
+  
   // Jika dipanggil dari tombol cepat (bukan dari input field)
   if (currentInput.value !== '') {
     commandHistory.value.push({ type: 'input', text: `visitor@wisnu-desktop:~$ ${cmd}` })

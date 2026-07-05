@@ -7,6 +7,9 @@ const email = ref('')
 const message = ref('')
 const isSubmitting = ref(false)
 const submitSuccess = ref(false)
+const isCooldown = ref(false)
+const cooldownTime = ref(0)
+let cooldownTimer = null
 
 // State Console Logs Terminal (Simulatif)
 const terminalLogs = ref([
@@ -26,6 +29,11 @@ const addLog = (type, text) => {
 
 // Handler submit form
 const handleSend = async () => {
+  if (isCooldown.value) {
+    addLog('error', `FAIL: Please wait ${cooldownTime.value}s before sending another message.`)
+    return
+  }
+
   if (!name.value || !email.value || !message.value) {
     addLog('error', 'FAIL: All fields (name, email, message) are required!')
     return
@@ -58,14 +66,24 @@ const handleSend = async () => {
     if (response.status === 200) {
       isSubmitting.value = false
       submitSuccess.value = true
-      addLog('success', 'STATUS 200: Connection established.')
-      addLog('success', 'SUCCESS: Message delivered to Wisnu Wicaksana!')
-      addLog('input', 'Ready. Contact session finished. Waiting for next input...')
-      
-      // Reset form
       name.value = ''
       email.value = ''
       message.value = ''
+      addLog('info', 'SUCCESS: Message securely transmitted.')
+      addLog('info', 'Thank you for reaching out!')
+      
+      // Cooldown timer
+      isCooldown.value = true
+      cooldownTime.value = 60
+      cooldownTimer = setInterval(() => {
+        cooldownTime.value--
+        if (cooldownTime.value <= 0) {
+          clearInterval(cooldownTimer)
+          isCooldown.value = false
+          submitSuccess.value = false
+        }
+      }, 1000)
+
     } else {
       isSubmitting.value = false
       addLog('error', `ERROR: ${result.message || 'Failed to send message.'}`)
@@ -158,7 +176,7 @@ const handleSend = async () => {
                 placeholder="e.g. Linus Torvalds" 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono"
                 required
-                :disabled="isSubmitting"
+                :disabled="isSubmitting || isCooldown"
               />
             </div>
             
@@ -172,7 +190,7 @@ const handleSend = async () => {
                 placeholder="e.g. linus@git.org" 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono"
                 required
-                :disabled="isSubmitting"
+                :disabled="isSubmitting || isCooldown"
               />
             </div>
 
@@ -186,7 +204,7 @@ const handleSend = async () => {
                 placeholder="Type your message here..." 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono resize-none"
                 required
-                :disabled="isSubmitting"
+                :disabled="isSubmitting || isCooldown"
               ></textarea>
             </div>
 
@@ -196,13 +214,14 @@ const handleSend = async () => {
               class="w-full py-2.5 rounded font-mono text-xs font-bold transition-all flex items-center justify-center space-x-2 border interactive"
               :class="
                 isSubmitting ? 'bg-slate-800 border-slate-700 text-slate-500 cursor-not-allowed' :
+                isCooldown ? 'bg-slate-900 border-slate-800 text-slate-500 cursor-not-allowed' :
                 submitSuccess ? 'bg-green-950/20 border-green-800 text-green-400 hover:bg-green-900/20' :
                 'bg-cyan-950/30 border-cyan-800 text-cyan-400 hover:bg-cyan-900/30 hover:border-cyan-500'
               "
-              :disabled="isSubmitting"
+              :disabled="isSubmitting || isCooldown"
             >
               <span v-if="isSubmitting" class="w-3.5 h-3.5 border-2 border-slate-500 border-t-transparent rounded-full animate-spin"></span>
-              <span>{{ isSubmitting ? './sending.sh' : submitSuccess ? 'Message Sent!' : './run_submit.sh' }}</span>
+              <span>{{ isSubmitting ? './sending.sh' : isCooldown ? `Wait ${cooldownTime}s...` : submitSuccess ? 'Message Sent!' : './run_submit.sh' }}</span>
             </button>
           </form>
         </div>

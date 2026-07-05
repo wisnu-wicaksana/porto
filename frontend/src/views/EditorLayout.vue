@@ -85,7 +85,7 @@ const openTerminal = () => {
         <button 
           @click="isMobileSidebarOpen = !isMobileSidebarOpen"
           class="md:hidden p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all interactive"
-          aria-label="Toggle File Explorer"
+          aria-label="Navigasi File"
         >
           <span class="text-xs font-mono font-bold">{{ isMobileSidebarOpen ? 'CLOSE' : 'FILES' }}</span>
         </button>
@@ -221,6 +221,7 @@ const openTerminal = () => {
               <span 
                 @click="closeTab(tab, $event)"
                 class="hover:bg-slate-800 hover:text-red-400 rounded-full w-3.5 h-3.5 flex items-center justify-center text-[8px] transition-all"
+                aria-label="Tutup Tab"
               >✕</span>
             </button>
           </div>

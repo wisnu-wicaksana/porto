@@ -1,4 +1,3 @@
-import { PROFILE } from './profile'
 
 export const VIRTUAL_FILES = {
   readme: {
