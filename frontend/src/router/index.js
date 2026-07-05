@@ -20,6 +20,10 @@ const router = createRouter({
       component: EditorLayout,
       children: [
         {
+          path: '', // Default child route for /editor
+          redirect: '/editor/readme'
+        },
+        {
           path: 'readme',
           name: 'readme',
           component: ReadmeFile
