@@ -100,7 +100,7 @@ setTimeout(typeWriter, 500)
               </p>
             </div>
             
-            <p class="text-slate-400 text-xs md:text-sm font-light max-w-lg leading-relaxed">
+            <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
               {{ PROFILE.bio }}
             </p>
             
@@ -126,7 +126,7 @@ setTimeout(typeWriter, 500)
 
           <!-- Box: Quick Badges -->
           <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-3 shadow-lg shadow-white/5">
-            <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider font-mono"> Core Stack</h3>
+            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono"> Core Stack</h3>
             <div class="flex flex-wrap gap-2">
               <span v-for="interest in PROFILE.interests" :key="interest" class="bg-[#111111] border border-[#222222] text-slate-300 px-2.5 py-1 rounded text-xs">
                 {{ interest }}
