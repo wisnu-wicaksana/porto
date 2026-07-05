@@ -3,6 +3,18 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter, RouterView } from 'vue-router'
 import { VIRTUAL_FILES } from '@/constants/files'
 
+// State untuk theme
+const isLightMode = ref(document.documentElement.classList.contains('light'))
+
+const toggleTheme = () => {
+  isLightMode.value = !isLightMode.value
+  if (isLightMode.value) {
+    document.documentElement.classList.add('light')
+  } else {
+    document.documentElement.classList.remove('light')
+  }
+}
+
 const route = useRoute()
 const router = useRouter()
 
@@ -57,10 +69,10 @@ const openTerminal = () => {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col overflow-hidden bg-[#0a0a0a] text-[#d4d4d8] font-mono selection:bg-cyan-500/30">
+  <div class="h-screen w-screen flex flex-col overflow-hidden bg-slate-950 text-slate-300 font-mono selection:bg-cyan-500/30">
     
     <!-- 1. TITLEBAR (Atas - Gaya MacOS Window) -->
-    <header class="h-10 bg-[#0a0a0a] border-b border-slate-800 flex items-center justify-between px-4 select-none shrink-0 z-20">
+    <header class="h-10 bg-slate-950 border-b border-slate-800 flex items-center justify-between px-4 select-none shrink-0 z-20">
       <!-- Tombol Window & Toggle Files (Kiri) -->
       <div class="flex items-center w-1/4">
         <!-- Tombol Window (Hanya Desktop) -->
@@ -85,8 +97,17 @@ const openTerminal = () => {
         <span class="truncate">porto - {{ activeFile.name || 'Idle' }} <span class="hidden sm:inline">- Visual Studio Code</span></span>
       </div>
       
-      <!-- Versi (Kanan) -->
+      <!-- Tema & Versi (Kanan) -->
       <div class="flex justify-end items-center space-x-3 w-1/4">
+        <!-- Theme Toggle Button -->
+        <button 
+          @click="toggleTheme"
+          class="p-1.5 rounded bg-slate-900/50 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 border border-slate-800/80 transition-all flex items-center justify-center interactive"
+          :title="isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
+        >
+          <span v-if="isLightMode" class="text-xs">🌙</span>
+          <span v-else class="text-xs">☀️</span>
+        </button>
         <span class="hidden md:inline-block text-[11px] text-slate-500 font-mono">v1.0.0</span>
       </div>
     </header>
@@ -95,7 +116,7 @@ const openTerminal = () => {
     <div class="flex-1 flex overflow-hidden relative">
 
       <!-- 2. ACTIVITY BAR (Sisi Kiri Desktop - Navigasi Vertikal) -->
-      <nav class="hidden md:flex flex-col w-12 bg-[#0a0a0a] border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
+      <nav class="hidden md:flex flex-col w-12 bg-slate-950 border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
         <!-- Grup Ikon Atas -->
         <div class="flex flex-col space-y-6 w-full items-center">
           <!-- File Explorer Icon (Active) -->
@@ -130,7 +151,7 @@ const openTerminal = () => {
 
       <!-- 3. SIDEBAR FILE EXPLORER (Desktop & Mobile Overlay Drawer) -->
       <aside 
-        class="w-60 bg-[#0a0a0a] border-r border-slate-800/80 flex flex-col select-none shrink-0 transition-transform duration-300 z-10
+        class="w-60 bg-slate-950 border-r border-slate-800/80 flex flex-col select-none shrink-0 transition-transform duration-300 z-10
                absolute md:static top-0 bottom-0 left-0 h-full
                md:translate-x-0"
         :class="isMobileSidebarOpen ? 'translate-x-0 shadow-2xl shadow-cyan-950/40' : '-translate-x-full md:translate-x-0'"
@@ -183,17 +204,17 @@ const openTerminal = () => {
       ></div>
 
       <!-- 4. EDITOR PANEL (Tengah - Menampilkan Tab & Content) -->
-      <main class="flex-1 flex flex-col overflow-hidden bg-[#000000]">
+      <main class="flex-1 flex flex-col overflow-hidden bg-slate-900">
         <!-- TABS BAR (Tab File Terbuka di Atas) -->
-        <div class="h-9 bg-[#0a0a0a] border-b border-slate-800/80 flex items-center overflow-x-auto scrollbar-none select-none shrink-0">
+        <div class="h-9 bg-slate-950 border-b border-slate-800/80 flex items-center overflow-x-auto scrollbar-none select-none shrink-0">
           <div class="flex items-center h-full">
             <button 
               v-for="tab in openTabs"
               :key="tab.path"
               @click="selectFile(tab)"
               class="h-full flex items-center space-x-2 px-4 border-r border-slate-800/60 text-xs font-mono transition-all interactive
-                     hover:bg-[#000000]"
-              :class="activeFile.path === tab.path ? 'bg-[#000000] text-cyan-400 border-t-2 border-t-cyan-400 font-medium' : 'text-slate-500 bg-[#0a0a0a]/40'"
+                     hover:bg-slate-900"
+              :class="activeFile.path === tab.path ? 'bg-slate-900 text-cyan-400 border-t-2 border-t-cyan-400 font-medium' : 'text-slate-500 bg-slate-950/40'"
             >
               <span>{{ tab.name }}</span>
               <!-- Tombol Tutup Tab -->
@@ -206,8 +227,8 @@ const openTerminal = () => {
         </div>
 
         <!-- AREA UTAMA RENDERING VIEW -->
-        <div class="flex-1 overflow-y-auto relative p-0 md:p-6 bg-[#000000]">
-          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-[#000000] p-4 md:p-6 pb-6">
+        <div class="flex-1 overflow-y-auto relative p-0 md:p-6 bg-slate-900">
+          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-slate-900 p-4 md:p-6 pb-6">
             <!-- Router View dengan Transisi Mulus -->
             <RouterView v-slot="{ Component }">
               <transition name="fade-editor" mode="out-in">
@@ -220,7 +241,7 @@ const openTerminal = () => {
     </div>
 
     <!-- 5. STATUS BAR (Bawah) -->
-    <footer class="hidden md:flex h-6 bg-[#0a0a0a] border-t border-slate-800/80 justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
+    <footer class="hidden md:flex h-6 bg-slate-950 border-t border-slate-800/80 justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
       <div class="flex items-center space-x-4">
         <!-- Git Branch -->
         <span class="flex items-center space-x-1 text-cyan-500">

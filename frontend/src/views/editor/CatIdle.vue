@@ -59,7 +59,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a] text-slate-400 font-mono select-none">
+  <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 text-slate-400 font-mono select-none">
     <div class="mb-4 text-center">
       <pre class="text-lg md:text-xl font-bold leading-none text-left inline-block" style="text-shadow: 0 0 10px rgba(148, 163, 184, 0.5);">{{ frames[currentFrame] }}</pre>
     </div>

@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  /* VERCEL / PITCH BLACK THEME OVERRIDES */
+  /* VERCEL / PITCH BLACK THEME DYNAMIC OVERRIDES */
   
-  /* Slate mapped to Pitch Black Neutrals */
-  --color-slate-100: #ffffff;
-  --color-slate-200: #ededed;
-  --color-slate-300: #d4d4d8;
-  --color-slate-400: #a1a1aa;
-  --color-slate-500: #71717a;
-  --color-slate-600: #52525b;
-  --color-slate-700: #3f3f46;
-  --color-slate-800: #27272a;
-  --color-slate-900: #000000; /* Pure Black Background */
-  --color-slate-950: #0a0a0a; /* Slightly elevated panel background */
+  /* Slate mapped to dynamic variables */
+  --color-slate-100: var(--th-slate-100);
+  --color-slate-200: var(--th-slate-200);
+  --color-slate-300: var(--th-slate-300);
+  --color-slate-400: var(--th-slate-400);
+  --color-slate-500: var(--th-slate-500);
+  --color-slate-600: var(--th-slate-600);
+  --color-slate-700: var(--th-slate-700);
+  --color-slate-800: var(--th-slate-800);
+  --color-slate-900: var(--th-slate-900);
+  --color-slate-950: var(--th-slate-950);
 
   /* Cyan mapped to Vercel Blue (or sleek white accents) */
   --color-cyan-400: #3291ff;
   --color-cyan-500: #0070f3;
   --color-cyan-800: #0366d6;
   --color-cyan-900: #00449e;
-  --color-cyan-950: #00255c;
+  --color-cyan-950: var(--th-cyan-950); /* Dynamic for button hovers */
 
   /* Purple mapped to sleek minimalist purple */
   --color-purple-400: #f81ce5;
@@ -43,6 +43,36 @@
 }
 
 @layer base {
+  :root {
+    /* DARK MODE (DEFAULT) */
+    --th-slate-100: #ffffff;
+    --th-slate-200: #ededed;
+    --th-slate-300: #d4d4d8;
+    --th-slate-400: #a1a1aa;
+    --th-slate-500: #71717a;
+    --th-slate-600: #52525b;
+    --th-slate-700: #3f3f46;
+    --th-slate-800: #27272a;
+    --th-slate-900: #000000;
+    --th-slate-950: #0a0a0a;
+    --th-cyan-950: #00255c;
+  }
+
+  .light {
+    /* LIGHT MODE (INVERTED) */
+    --th-slate-100: #0a0a0a;
+    --th-slate-200: #27272a;
+    --th-slate-300: #3f3f46;
+    --th-slate-400: #52525b;
+    --th-slate-500: #71717a;
+    --th-slate-600: #a1a1aa;
+    --th-slate-700: #d4d4d8;
+    --th-slate-800: #e4e4e7; /* Borders in light mode */
+    --th-slate-900: #f4f4f5; /* Light content bg */
+    --th-slate-950: #ffffff; /* Light header/sidebar bg */
+    --th-cyan-950: #e0f2fe; /* Light blue for button hovers */
+  }
+
   * {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
   }

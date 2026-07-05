@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#000000] text-[#ededed] font-mono antialiased overflow-x-hidden select-none">
+  <div class="min-h-screen bg-slate-900 text-slate-200 font-mono antialiased overflow-x-hidden select-none">
     <!-- Router View (Menampilkan EditorLayout atau TerminalView) -->
     <RouterView v-slot="{ Component }">
       <transition name="fade-workspace" mode="out-in">
