@@ -1,8 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { VIRTUAL_FILES } from '@/constants/files'
-
-const isPreviewMode = ref(true)
 
 // State Formulir Kontak
 const name = ref('')
@@ -63,7 +60,7 @@ const handleSend = async () => {
       submitSuccess.value = true
       addLog('success', 'STATUS 200: Connection established.')
       addLog('success', 'SUCCESS: Message delivered to Wisnu Wicaksana!')
-      addLog('input', 'Ready. Sesi kontak selesai. Menunggu input berikutnya...')
+      addLog('input', 'Ready. Contact session finished. Waiting for next input...')
       
       // Reset form
       name.value = ''
@@ -72,38 +69,14 @@ const handleSend = async () => {
     } else {
       isSubmitting.value = false
       addLog('error', `ERROR: ${result.message || 'Failed to send message.'}`)
-      addLog('input', 'Silakan coba lagi nanti.')
+      addLog('input', 'Please try again later.')
     }
   } catch {
     isSubmitting.value = false
     addLog('error', 'ERROR: Network error. Cannot reach the server.')
-    addLog('input', 'Periksa koneksi internet Anda dan coba lagi.')
+    addLog('input', 'Check your internet connection and try again.')
   }
 }
-
-// Mewarnai baris kode Bash script untuk mode Source Code
-const highlightBashLine = (line) => {
-  let html = line
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-
-  // Warnai Komentar (# ...)
-  html = html.replace(/(#.*)/g, '<span class="text-[#5c6370] italic">$1</span>')
-
-  // Warnai Keyword Bash (function, echo, curl, etc.)
-  html = html.replace(/\b(function|echo|curl|function|return|local|exit)\b/g, '<span class="text-[#c678dd]">$1</span>')
-
-  // Warnai Nilai String (tanda kutip ganda)
-  html = html.replace(/(".*?")/g, '<span class="text-[#98c379]">$1</span>')
-
-  // Warnai Variabel (contoh: $SENDER_NAME atau $EMAIL)
-  html = html.replace(/(\$[A-Z0-9_]+)/gi, '<span class="text-[#e06c75]">$1</span>')
-
-  return html
-}
-
-const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
 </script>
 
 <template>
@@ -118,16 +91,8 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
     <!-- AREA UTAMA -->
     <div class="flex-1 overflow-y-auto">
       
-      <!-- MODE RAW CODE (Bash Editor View) -->
-      <div v-if="!isPreviewMode" class="space-y-0.5 leading-6 text-left">
-        <div v-for="(line, idx) in rawLines" :key="idx" class="flex">
-          <span class="w-10 text-slate-600 text-right pr-4 select-none text-xs">{{ idx + 1 }}</span>
-          <span class="flex-1 whitespace-pre" v-html="highlightBashLine(line)"></span>
-        </div>
-      </div>
-
       <!-- MODE PREVIEW (Interactive Console + Contact Form) -->
-      <div v-else class="font-mono grid grid-cols-1 md:grid-cols-12 gap-6 h-full items-stretch">
+      <div class="font-mono grid grid-cols-1 md:grid-cols-12 gap-6 h-full items-stretch">
         
         <!-- Kolom Kiri: Terminal Console Logger (6/12 Grid) -->
         <div class="md:col-span-6 flex flex-col rounded-lg bg-slate-950/70 border border-slate-900 overflow-hidden min-h-[220px] shadow-lg shadow-white/5">
@@ -179,7 +144,7 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
         <!-- Kolom Kanan: Contact Form (6/12 Grid) -->
         <div class="md:col-span-6 flex flex-col justify-center p-5 rounded-lg bg-slate-900/30 border border-slate-800/40 text-left shadow-lg shadow-white/5">
           <h3 class="text-base font-bold text-slate-100 mb-4">
-            Kirim Pesan Langsung
+            Send Direct Message
           </h3>
           
           <form @submit.prevent="handleSend" class="space-y-4">
@@ -190,7 +155,7 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
                 id="name"
                 v-model="name"
                 type="text" 
-                placeholder="cth: Linus Torvalds" 
+                placeholder="e.g. Linus Torvalds" 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono"
                 required
                 :disabled="isSubmitting"
@@ -204,7 +169,7 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
                 id="email"
                 v-model="email"
                 type="email" 
-                placeholder="cth: linus@git.org" 
+                placeholder="e.g. linus@git.org" 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono"
                 required
                 :disabled="isSubmitting"
@@ -218,7 +183,7 @@ const rawLines = VIRTUAL_FILES.contact.raw.split('\n')
                 id="message"
                 v-model="message"
                 rows="4"
-                placeholder="Ketik pesan Anda di sini..." 
+                placeholder="Type your message here..." 
                 class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-cyan-500/80 transition-all font-mono resize-none"
                 required
                 :disabled="isSubmitting"

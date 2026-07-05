@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useGithubStore } from '@/stores/github'
-import { VIRTUAL_FILES } from '@/constants/files'
 
-const isPreviewMode = ref(true)
 const isZoomed = ref(false)
 const githubStore = useGithubStore()
 
@@ -12,42 +10,12 @@ onMounted(async () => {
   await githubStore.fetchProfile()
 })
 
+import { PROFILE } from '@/constants/profile'
+
 // Parsing isi JSON lokal sebagai fallback
-const localProjects = computed(() => {
-  try {
-    const parsed = JSON.parse(VIRTUAL_FILES.projects.raw)
-    return parsed.featured_projects || []
-  } catch (e) {
-    console.error('Failed to parse local projects:', e)
-    return []
-  }
-})
+const localProjects = computed(() => PROFILE.projects)
 
-// Fungsi mewarnai baris JSON untuk Mode Source Code
-const highlightJsonLine = (line) => {
-  // Bersihkan tag HTML berbahaya
-  let html = line
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
 
-  // Warnai Kunci/Key (contoh: "name":)
-  html = html.replace(/"([^"]+)":/g, '<span class="text-[#e06c75]">"$1"</span>:')
-
-  // Warnai Nilai String (contoh: : "In Development")
-  // Regex mencocokkan apa saja setelah titik dua (:) diikuti tanda kutip
-  html = html.replace(/: \s*"([^"]*)"/g, ': <span class="text-[#98c379]">"$1"</span>')
-
-  // Warnai Angka, Boolean, Null
-  html = html.replace(/: \s*(true|false|null|\d+)/g, ': <span class="text-[#d19a66] font-bold">$1</span>')
-
-  // Warnai Kurung Kurawal & Kurung Siku
-  html = html.replace(/([{}[\]])/g, '<span class="text-[#e5c07b]">$1</span>')
-
-  return html
-}
-
-const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
 </script>
 
 <template>
@@ -62,16 +30,8 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
     <!-- AREA UTAMA -->
     <div class="flex-1 overflow-y-auto">
       
-      <!-- MODE RAW CODE (JSON Highlighting) -->
-      <div v-if="!isPreviewMode" class="space-y-0.5 leading-6 text-left">
-        <div v-for="(line, idx) in rawLines" :key="idx" class="flex">
-          <span class="w-10 text-slate-600 text-right pr-4 select-none text-xs">{{ idx + 1 }}</span>
-          <span class="flex-1 whitespace-pre" v-html="highlightJsonLine(line)"></span>
-        </div>
-      </div>
-
       <!-- MODE PREVIEW (GitHub API Dashboard) -->
-      <div v-else class="font-mono space-y-6">
+      <div class="font-mono space-y-6">
         
         <!-- Loading State -->
         <div v-if="githubStore.loading" class="flex flex-col items-center justify-center py-16 space-y-4">
@@ -86,7 +46,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
             <div class="text-xs space-y-1">
               <p class="font-bold">Offline / Local Mode</p>
               <p class="text-slate-400">
-                Gagal memuat data realtime dari GitHub (kemungkinan token .env belum dikonfigurasi). Menampilkan proyek statis dari <code class="bg-yellow-950/50 px-1 rounded text-yellow-300 font-mono">projects.json</code> lokal.
+                Failed to load realtime data from GitHub (likely .env token not configured). Displaying static projects from <code class="bg-yellow-950/50 px-1 rounded text-yellow-300 font-mono">projects.json</code>.
               </p>
             </div>
           </div>
@@ -146,7 +106,7 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
               alt="GitHub Avatar" 
               class="w-20 h-20 rounded-full border border-cyan-500/50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
               @click="isZoomed = true"
-              title="Perbesar Foto"
+              title="Zoom Picture"
             />
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -191,13 +151,13 @@ const rawLines = computed(() => VIRTUAL_FILES.projects.raw.split('\n'))
                       :href="repo.url" 
                       target="_blank" 
                       class="text-slate-600 hover:text-cyan-400 text-[10px] interactive shrink-0"
-                      title="Buka di GitHub"
+                      title="Open in GitHub"
                     >
                       🔗
                     </a>
                   </div>
                   <p class="text-[11px] text-slate-500 leading-relaxed h-8 overflow-hidden text-ellipsis line-clamp-2">
-                    {{ repo.description || 'Tidak ada deskripsi.' }}
+                    {{ repo.description || 'No description provided.' }}
                   </p>
                 </div>
                 

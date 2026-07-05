@@ -101,13 +101,8 @@ const executeCommand = async (cmd) => {
     case 'about':
       commandHistory.value.push({ 
         type: 'output', 
-        text: `Hi! I'm Wisnu Wicaksana.
-A Junior Fullstack Developer  based in Jawa Tengah, Indonesia.
-I specialize in building high-performance web applications, scalable APIs, 
-and clean system architectures using modern technologies like Vue 3, React, 
-Node.js, and Serverless frameworks.
-
-My philosophy: "Code is an instrument to solve real problems efficiently."` 
+        text: `Hi! I'm ${PROFILE.name}.
+${PROFILE.bio}` 
       })
       break
 
@@ -134,18 +129,14 @@ My philosophy: "Code is an instrument to solve real problems efficiently."`
         commandHistory.value.push({ type: 'output', text: projText })
       } else {
         // Fallback jika API gagal
+        let fallbackText = `[ OFFLINE MODE ]\nFailed to fetch live data from GitHub. Showing local fallback:\n\n`
+        PROFILE.projects.forEach(p => {
+          fallbackText += `* ${p.name}\n  Desc: ${p.description}\n  Tech: ${p.tech_stack.join(', ')}\n\n`
+        })
+
         commandHistory.value.push({ 
           type: 'output', 
-          text: `[ OFFLINE MODE ]
-Failed to fetch live data from GitHub. Showing local fallback:
-
-* porto-monorepo
-  Desc: Web portofolio interaktif dengan desain UI/UX bertema Programmer.
-  Tech: Vue 3, Tailwind v4, Vercel
-  
-* secure-api-proxy
-  Desc: Fungsi serverless aman untuk menyembunyikan API token.
-  Tech: Node.js, GraphQL` 
+          text: fallbackText.trim()
         })
       }
       break
@@ -191,6 +182,11 @@ Failed to fetch live data from GitHub. Showing local fallback:
             skillsText += `${item.name.padEnd(30)} [${bar}] ${item.level}%\n`
           })
           skillsText += '\n'
+        })
+        
+        skillsText += `\n[ SOFT SKILLS ]\n\n`
+        PROFILE.softSkills.forEach(skill => {
+          skillsText += `${skill.key.padEnd(20)} : ${skill.value}\n`
         })
         
         commandHistory.value.push({ type: 'output', text: skillsText })

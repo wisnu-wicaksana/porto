@@ -1,11 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useGithubStore } from '@/stores/github'
-import { VIRTUAL_FILES } from '@/constants/files'
 import { PROFILE } from '@/constants/profile'
-
 const githubStore = useGithubStore()
-const isPreviewMode = ref(true)
 const animateProgress = ref(false)
 
 onMounted(() => {
@@ -44,24 +41,9 @@ const dynamicSkills = computed(() => {
 // 2. Ekosistem Framework & Library Detail (Dari Pusat Data)
 const detailedEcosystem = PROFILE.frameworkEcosystem
 
-const softSkills = [
-  { key: 'problem-solving', value: 'High' },
-  { key: 'system-design', value: 'Scalable & Maintainable' },
-  { key: 'collaboration', value: 'Excellent' },
-  { key: 'mentorship', value: 'Senior Level' }
-]
+const softSkills = PROFILE.softSkills
 
-const highlightCssLine = (line) => {
-  let html = line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  html = html.replace(/(\/\*.*?\*\/)/g, '<span class="text-[#5c6370] italic">$1</span>')
-  html = html.replace(/^(\.[a-zA-Z0-9_-]+)/g, '<span class="text-[#61afef] font-bold">$1</span>')
-  html = html.replace(/([a-zA-Z0-9_-]+):/g, '<span class="text-[#e06c75]">$1</span>:')
-  html = html.replace(/: \s*([^;]+)/g, ': <span class="text-[#98c379]">$1</span>')
-  html = html.replace(/([{};])/g, '<span class="text-[#c678dd] font-bold">$1</span>')
-  return html
-}
 
-const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
 </script>
 
 <template>
@@ -73,14 +55,8 @@ const rawLines = VIRTUAL_FILES.skills.raw.split('\n')
     </div>
 
     <div class="flex-1 overflow-y-auto pr-2">
-      <div v-if="!isPreviewMode" class="space-y-0.5 leading-6 text-left">
-        <div v-for="(line, idx) in rawLines" :key="idx" class="flex">
-          <span class="w-10 text-slate-600 text-right pr-4 select-none text-xs">{{ idx + 1 }}</span>
-          <span class="flex-1 whitespace-pre" v-html="highlightCssLine(line)"></span>
-        </div>
-      </div>
 
-      <div v-else class="font-mono space-y-8 pb-8">
+      <div class="font-mono space-y-8 pb-8">
         
         <!-- Live GitHub Languages -->
         <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left shadow-lg shadow-white/5">

@@ -1,39 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { PROFILE } from '@/constants/profile'
-import { VIRTUAL_FILES } from '@/constants/files'
 import { useGithubStore } from '@/stores/github'
 
 const githubStore = useGithubStore()
-const isPreviewMode = ref(true)
 const isZoomed = ref(false)
 
 onMounted(() => {
   githubStore.fetchProfile()
 })
-
-// Isi Markdown mentah untuk tampilan Raw Code
-const rawMarkdownLines = VIRTUAL_FILES.readme.raw.split('\n')
-
-// Fungsi helper mewarnai baris markdown (sederhana syntax highlighting)
-const highlightMarkdownLine = (line) => {
-  if (line.startsWith('# ')) {
-    return `<span class="text-cyan-400 font-bold">${line}</span>`
-  }
-  if (line.startsWith('## ')) {
-    return `<span class="text-purple-400 font-bold">${line}</span>`
-  }
-  if (line.startsWith('> ')) {
-    return `<span class="text-slate-500 italic">${line}</span>`
-  }
-  if (line.startsWith('- **')) {
-    const parts = line.split(':')
-    if (parts.length > 1) {
-      return `<span class="text-slate-400">- <span class="text-yellow-400 font-bold">${parts[0].replace('- ', '')}</span>:${parts[1]}</span>`
-    }
-  }
-  return `<span class="text-slate-300">${line}</span>`
-}
 
 // Efek mesin ketik (Typewriter) sederhana
 const typedSubtitle = ref('')
@@ -62,16 +37,8 @@ setTimeout(typeWriter, 500)
     <!-- AREA UTAMA -->
     <div class="flex-1 overflow-y-auto">
       
-      <!-- MODE RAW CODE (Markdown Text View) -->
-      <div v-if="!isPreviewMode" class="space-y-1 leading-relaxed text-left">
-        <div v-for="(line, idx) in rawMarkdownLines" :key="idx" class="flex">
-          <span class="w-10 text-slate-600 text-right pr-4 select-none text-xs">{{ idx + 1 }}</span>
-          <span class="flex-1 whitespace-pre" v-html="highlightMarkdownLine(line)"></span>
-        </div>
-      </div>
-
       <!-- MODE PREVIEW (Visual Profile) -->
-      <div v-else class="font-mono space-y-6 pb-8">
+      <div class="font-mono space-y-6 pb-8">
         
         <!-- Baris Atas: Foto Profil & Info Cepat -->
         <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6 pb-6 border-b border-slate-800/40">
@@ -84,7 +51,7 @@ setTimeout(typeWriter, 500)
                 :alt="PROFILE.name"
                 class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
                 @click="isZoomed = true"
-                title="Perbesar Foto"
+                title="Zoom Picture"
               />
             </div>
           </div>

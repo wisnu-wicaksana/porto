@@ -47,13 +47,28 @@ const topSkills = allSkills
 export const PROFILE = {
   name: 'Wisnu Wicaksana',
   role: 'Junior Fullstack Developer | Frontend Enthusiast',
-  bio: 'Saya adalah seorang fullstack developer yang suka mengubah logika kompleks menjadi antarmuka pengguna yang bersih, responsif, dan menyenangkan untuk dijelajahi.',
+  bio: 'I am a fullstack developer who loves turning complex logic into clean, responsive, and delightful user interfaces.',
   avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80',
   location: 'Central Java, Indonesia',
   
   about: 'A Bachelor of Informatics graduate from Amikom University Yogyakarta with a strong interest in Web Development. Proficient in developing web applications using React.js, Vue.js, HTML, CSS, JavaScript, Express.js, and PostgreSQL.\n\nThroughout my academic journey and self-taught learning, I have actively developed various projects to enhance my skills in building responsive user interfaces, managing databases, and developing REST APIs on the backend.\n\nI have a strong eagerness to learn, solid problem-solving skills, and am accustomed to finding solutions to various technical challenges. I am currently open to opportunities as a Frontend Developer, Backend Developer, Full Stack Developer, or other roles related to web application development.',
 
-  interests: topSkills,
+  projects: [
+    {
+      name: "porto-monorepo",
+      description: "Interactive web portfolio with Programmer UI/UX design (VS Code & Terminal CLI hybrid).",
+      tech_stack: ["Vue 3", "Vite", "Tailwind v4", "Vercel Serverless"],
+      status: "In Development",
+      github_url: "https://github.com/wisnu-wicaksana/porto"
+    },
+    {
+      name: "secure-api-proxy",
+      description: "Secure serverless function to hide GitHub GraphQL API tokens with integrated Edge Network cache.",
+      tech_stack: ["Node.js", "Vercel Serverless", "GraphQL"],
+      status: "Deployed",
+      github_url: "https://github.com/wisnu-wicaksana/porto"
+    }
+  ],
 
   contact: {
     email: 'wisnuwicaksana100@gmail.com',
@@ -66,5 +81,12 @@ export const PROFILE = {
 
   },
 
-  frameworkEcosystem: frameworkEcosystemData
+  frameworkEcosystem: frameworkEcosystemData,
+
+  softSkills: [
+    { key: 'problem-solving', value: 'High' },
+    { key: 'system-design', value: 'Scalable & Maintainable' },
+    { key: 'collaboration', value: 'Excellent' },
+    { key: 'mentorship', value: 'Junior Level' }
+  ]
 }

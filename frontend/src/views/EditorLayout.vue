@@ -142,7 +142,7 @@ const openTerminal = () => {
           <button 
             @click="openTerminal"
             class="p-2 rounded text-slate-500 hover:text-green-400 transition-all text-xl interactive hover:scale-110"
-            title="Buka Terminal CLI"
+            title="Open Terminal CLI"
           >
             <span class="text-xs font-bold tracking-widest">CLI</span>
           </button>
