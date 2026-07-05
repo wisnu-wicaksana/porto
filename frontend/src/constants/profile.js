@@ -49,7 +49,7 @@ export const PROFILE = {
   role: 'Junior Fullstack Developer | Frontend Enthusiast',
   bio: 'Saya adalah seorang fullstack developer yang suka mengubah logika kompleks menjadi antarmuka pengguna yang bersih, responsif, dan menyenangkan untuk dijelajahi.',
   avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80',
-  location: 'Jawa Tengah, Indonesia',
+  location: 'Central Java, Indonesia',
   
   about: 'A Bachelor of Informatics graduate from Amikom University Yogyakarta with a strong interest in Web Development. Proficient in developing web applications using React.js, Vue.js, HTML, CSS, JavaScript, Express.js, and PostgreSQL.\n\nThroughout my academic journey and self-taught learning, I have actively developed various projects to enhance my skills in building responsive user interfaces, managing databases, and developing REST APIs on the backend.\n\nI have a strong eagerness to learn, solid problem-solving skills, and am accustomed to finding solutions to various technical challenges. I am currently open to opportunities as a Frontend Developer, Backend Developer, Full Stack Developer, or other roles related to web application development.',
 

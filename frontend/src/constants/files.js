@@ -98,14 +98,13 @@ const generateSkillsRaw = () => {
   problem-solving: "High";
   system-design: "Scalable & Maintainable";
   collaboration: "Excellent";
-  mentorship: "Senior Level";
+  mentorship: "Junior Level";
 }`
 }
 
 export const VIRTUAL_FILES = {
   readme: {
     name: 'README.md',
-    icon: '📄',
     language: 'markdown',
     path: '/editor/readme',
     raw: generateReadmeRaw()
@@ -113,7 +112,6 @@ export const VIRTUAL_FILES = {
   
   projects: {
     name: 'projects.json',
-    icon: '📦',
     language: 'json',
     path: '/editor/projects',
     raw: `{
@@ -143,7 +141,6 @@ export const VIRTUAL_FILES = {
 
   skills: {
     name: 'skills.css',
-    icon: '🎨',
     language: 'css',
     path: '/editor/skills',
     raw: generateSkillsRaw()
@@ -151,7 +148,6 @@ export const VIRTUAL_FILES = {
 
   contact: {
     name: 'contact.sh',
-    icon: '⚡',
     language: 'bash',
     path: '/editor/contact',
     raw: generateContactRaw()

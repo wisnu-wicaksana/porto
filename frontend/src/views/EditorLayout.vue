@@ -185,10 +185,10 @@ const openTerminal = () => {
         </div>
 
         <!-- Shortcut ke Terminal di Sidebar -->
-        <div class="p-3 border-t border-slate-800/40 bg-slate-950/20">
+        <div class="p-3 border-t border-slate-800/40 bg-slate-900/50">
           <button 
             @click="openTerminal"
-            class="w-full flex items-center justify-center space-x-2 py-1.5 px-3 rounded bg-green-950/40 hover:bg-green-900/40 text-green-400 border border-green-800/40 hover:border-green-600/50 transition-all font-mono text-xs interactive"
+            class="w-full flex items-center justify-center space-x-2 py-1.5 px-3 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/50 hover:text-cyan-400 transition-all font-mono text-xs interactive shadow-sm"
           >
             <span class="font-bold">>_</span>
             <span>run_terminal.sh</span>

@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    // vueDevTools(), // dinonaktifkan sementara untuk menghindari error inspector di mobile
     tailwindcss(),
   ],
   resolve: {
