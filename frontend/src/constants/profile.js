@@ -61,7 +61,7 @@ export const PROFILE = {
     linkedin: 'https://www.linkedin.com/in/wisnu-wicaksono-25a8b2348',
     instagram: 'https://www.instagram.com/wisnnnnnuuuuu/',
     threads: 'https://www.threads.com/@wisnnnnnuuuuu',
-    facebook: 'https://www.facebook.com/wisnu.wicaksana.7',
+    facebook: 'https://www.facebook.com/wisnu.wicaksono.92167/',
     whatsapp: 'https://wa.me/62895364849610',
 
   },

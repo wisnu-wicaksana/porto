@@ -41,27 +41,45 @@ const handleSend = async () => {
   addLog('info', `Email captured: "${email.value}"`)
   addLog('info', 'Preparing JSON payload payload.json...')
   
-  setTimeout(() => {
-    addLog('post', 'POST request dispatched to: /api/contact')
-  }, 500)
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        // TODO: Ganti access_key ini dengan milik Anda!
+        access_key: 'YOUR_ACCESS_KEY_HERE', 
+        name: name.value,
+        email: email.value,
+        message: message.value
+      })
+    })
 
-  setTimeout(() => {
-    addLog('info', 'Connecting to Vercel Serverless Function Edge...')
-  }, 1000)
+    const result = await response.json()
 
-  setTimeout(() => {
-    // Simulasi respons sukses
+    if (response.status === 200) {
+      isSubmitting.value = false
+      submitSuccess.value = true
+      addLog('success', 'STATUS 200: Connection established.')
+      addLog('success', 'SUCCESS: Message delivered to Wisnu Wicaksana!')
+      addLog('input', 'Ready. Sesi kontak selesai. Menunggu input berikutnya...')
+      
+      // Reset form
+      name.value = ''
+      email.value = ''
+      message.value = ''
+    } else {
+      isSubmitting.value = false
+      addLog('error', `ERROR: ${result.message || 'Failed to send message.'}`)
+      addLog('input', 'Silakan coba lagi nanti.')
+    }
+  } catch (error) {
     isSubmitting.value = false
-    submitSuccess.value = true
-    addLog('success', 'STATUS 200: Connection established.')
-    addLog('success', 'SUCCESS: Message delivered to Wisnu Wicaksana!')
-    addLog('input', 'Ready. Sesi kontak selesai. Menunggu input berikutnya...')
-    
-    // Reset form
-    name.value = ''
-    email.value = ''
-    message.value = ''
-  }, 2000)
+    addLog('error', 'ERROR: Network error. Cannot reach the server.')
+    addLog('input', 'Periksa koneksi internet Anda dan coba lagi.')
+  }
 }
 
 // Mewarnai baris kode Bash script untuk mode Source Code
