@@ -1,246 +1,17 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
 import { useGithubStore } from '@/stores/github'
-import { PROFILE } from '@/constants/profile'
 import TerminalSnake from '@/components/TerminalSnake.vue'
+import { useTerminalCommands } from '@/composables/useTerminalCommands'
 
-const router = useRouter()
 const githubStore = useGithubStore()
 
 // State
 const inputRef = ref(null)
 const currentInput = ref('')
-const commandHistory = ref([])
-const isMobileKeyboardOpen = ref(false) // Untuk mendeteksi fokus di mobile
+const isMobileKeyboardOpen = ref(false)
 
-const WELCOME_TEXT = `Welcome to Wisnu's Terminal Portfolio v1.0.0
-Type 'help' to see available commands.`
-
-// Fungsi memfokuskan input (jangan auto-focus di mobile untuk mencegah browser auto-scroll layout shift)
-const focusInput = () => {
-  if (inputRef.value && window.innerWidth >= 768) {
-    inputRef.value.focus()
-  }
-}
-
-// Reset scroll pada container induk
-const resetScrolls = () => {
-  window.scrollTo(0, 0)
-  document.body.scrollLeft = 0
-  const appDiv = document.getElementById('app')
-  if (appDiv) appDiv.scrollLeft = 0
-  
-  // Cari semua elemen dengan overflow-x-hidden dan reset
-  document.querySelectorAll('.overflow-x-hidden').forEach(el => {
-    el.scrollLeft = 0
-  })
-}
-
-// Inisialisasi Terminal
-onMounted(() => {
-  commandHistory.value.push({ type: 'output', text: WELCOME_TEXT, isAscii: false })
-  
-  // Reset scroll multiple times during transition
-  resetScrolls()
-  setTimeout(resetScrolls, 100)
-  setTimeout(resetScrolls, 400)
-
-  setTimeout(() => {
-    focusInput()
-  }, 400)
-
-  // Fetch profil GitHub di background
-  githubStore.fetchProfile()
-})
-
-// Handler saat command disubmit
-const handleCommand = async (e) => {
-  // Cegah default form submission
-  e?.preventDefault()
-  
-  const cmd = currentInput.value.trim().toLowerCase()
-  if (!cmd) return
-
-  // Tambahkan input user ke histori
-  commandHistory.value.push({ type: 'input', text: `visitor@wisnu-desktop:~$ ${cmd}` })
-  currentInput.value = ''
-
-  // Scroll ke bawah
-  scrollToBottom()
-
-  // Routing perintah (Command execution)
-  await executeCommand(cmd)
-}
-
-// Fungsi eksekusi perintah (Bisa dipanggil oleh text input atau quick action button)
-const executeCommand = async (rawCmd) => {
-  const cmd = rawCmd.trim().toLowerCase()
-  
-  // Jika dipanggil dari tombol cepat (bukan dari input field)
-  if (currentInput.value !== '') {
-    commandHistory.value.push({ type: 'input', text: `visitor@wisnu-desktop:~$ ${cmd}` })
-    currentInput.value = ''
-  }
-
-  switch (cmd) {
-    case 'help':
-      commandHistory.value.push({ 
-        type: 'output', 
-        text: `Available commands:
-  help      - Show this help message
-  about     - Show brief information about me
-  projects  - List my top GitHub repositories (Live Data)
-  skills    - Display my technical skills
-  contact   - Show contact information
-  clear     - Clear the terminal screen
-  editor    - Switch back to the VS Code GUI mode
-  gui       - Alias for 'editor'
-  snake     -  Play the classic Snake game!`
-      })
-      break
-
-    case 'about':
-      commandHistory.value.push({ 
-        type: 'output', 
-        text: `Hi! I'm ${PROFILE.name}.
-${PROFILE.bio}` 
-      })
-      break
-
-    case 'projects':
-      commandHistory.value.push({ type: 'output', text: 'Fetching repositories from GitHub API...' })
-      scrollToBottom()
-      
-      if (githubStore.loading) {
-        // Tunggu sebentar jika sedang loading
-        await new Promise(resolve => setTimeout(resolve, 1000))
-      }
-
-      if (githubStore.profileData && githubStore.profileData.repositories?.nodes?.length) {
-        let projText = `\n[ MY REPOSITORIES - @${githubStore.profileData.login} ]\n\n`
-        
-        githubStore.profileData.repositories.nodes.forEach(repo => {
-          const lang = repo.primaryLanguage ? repo.primaryLanguage.name : 'Unknown'
-          projText += `* ${repo.name}\n`
-          projText += `  Desc: ${repo.description || 'No description'}\n`
-          projText += `  Tech: ${lang} | Stars: ${repo.stargazerCount} | Forks: ${repo.forkCount}\n`
-          projText += `  Link: ${repo.url}\n\n`
-        })
-
-        commandHistory.value.push({ type: 'output', text: projText })
-      } else {
-        // Fallback jika API gagal
-        let fallbackText = `[ OFFLINE MODE ]\nFailed to fetch live data from GitHub. Showing local fallback:\n\n`
-        PROFILE.projects.forEach(p => {
-          fallbackText += `* ${p.name}\n  Desc: ${p.description}\n  Tech: ${p.tech_stack.join(', ')}\n\n`
-        })
-
-        commandHistory.value.push({ 
-          type: 'output', 
-          text: fallbackText.trim()
-        })
-      }
-      break
-
-    case 'skills':
-      if (githubStore.profileData?.repositories?.nodes) {
-        let skillsText = `[ GITHUB LANGUAGES DISTRIBUTION ]\n\n`
-        
-        const langs = {}
-        let totalRepos = 0
-        
-        githubStore.profileData.repositories.nodes.forEach(repo => {
-          if (repo.primaryLanguage) {
-            const name = repo.primaryLanguage.name
-            if (!langs[name]) langs[name] = 0
-            langs[name]++
-            totalRepos++
-          }
-        })
-        
-        const skillsArray = Object.keys(langs).map(key => ({
-          name: key,
-          level: Math.round((langs[key] / totalRepos) * 100)
-        })).sort((a, b) => b.level - a.level)
-        
-        skillsArray.forEach(skill => {
-          const filled = Math.round(skill.level / 10)
-          const empty = 10 - filled
-          const bar = '█'.repeat(filled) + '░'.repeat(empty)
-          skillsText += `${skill.name.padEnd(16)} [${bar}] ${skill.level}%\n`
-        })
-
-        // Menambahkan Detail Framework & Library
-        const detailedEcosystem = PROFILE.frameworkEcosystem
-
-        skillsText += `\n[ FRAMEWORKS & LIBRARIES ECOSYSTEM ]\n\n`
-        detailedEcosystem.forEach(group => {
-          skillsText += `${group.category}:\n`
-          group.items.forEach(item => {
-            const filled = Math.round(item.level / 10)
-            const empty = 10 - filled
-            const bar = '█'.repeat(filled) + '░'.repeat(empty)
-            skillsText += `${item.name.padEnd(30)} [${bar}] ${item.level}%\n`
-          })
-          skillsText += '\n'
-        })
-        
-        skillsText += `\n[ SOFT SKILLS ]\n\n`
-        PROFILE.softSkills.forEach(skill => {
-          skillsText += `${skill.key.padEnd(20)} : ${skill.value}\n`
-        })
-        
-        commandHistory.value.push({ type: 'output', text: skillsText })
-      } else {
-        commandHistory.value.push({ type: 'output', text: 'Still loading data from GitHub. Please try again in a moment.' })
-      }
-      break
-
-    case 'contact':
-      commandHistory.value.push({ 
-        type: 'output', 
-        text: `[ CONTACT INFO ]
-Email     : ${PROFILE.contact.email}
-GitHub    : ${PROFILE.contact.github}
-LinkedIn  : ${PROFILE.contact.linkedin}
-Instagram : ${PROFILE.contact.instagram}
-Threads   : ${PROFILE.contact.threads}
-Facebook  : ${PROFILE.contact.facebook}
-WhatsApp  : ${PROFILE.contact.whatsapp}
-
-Type 'editor' and go to contact.sh to send a direct message!` 
-      })
-      break
-
-    case 'snake':
-      commandHistory.value.push({
-        type: 'component',
-        component: 'snake'
-      })
-      break
-
-    case 'clear':
-      commandHistory.value = []
-      break
-
-    case 'editor':
-    case 'gui':
-      commandHistory.value.push({ type: 'output', text: 'Initializing graphical user interface (GUI)...' })
-      setTimeout(() => {
-        router.push('/editor')
-      }, 500)
-      break
-
-    default:
-      commandHistory.value.push({ 
-        type: 'output', 
-        text: `bash: ${cmd}: command not found. Type 'help' for a list of commands.` 
-      })
-  }
-  
-  scrollToBottom()
-}
+const WELCOME_TEXT = `Welcome to Wisnu's Terminal Portfolio v1.0.0\nType 'help' to see available commands.`
 
 const scrollToBottom = () => {
   nextTick(() => {
@@ -251,6 +22,54 @@ const scrollToBottom = () => {
   })
 }
 
+const { commandHistory, executeCommand } = useTerminalCommands(scrollToBottom, (cmd) => {
+  if (currentInput.value !== '') {
+    commandHistory.value.push({ type: 'input', text: `visitor@wisnu-desktop:~$ ${cmd}` })
+    currentInput.value = ''
+  }
+})
+
+const focusInput = () => {
+  if (inputRef.value && window.innerWidth >= 768) {
+    inputRef.value.focus()
+  }
+}
+
+const resetScrolls = () => {
+  window.scrollTo(0, 0)
+  document.body.scrollLeft = 0
+  const appDiv = document.getElementById('app')
+  if (appDiv) appDiv.scrollLeft = 0
+  document.querySelectorAll('.overflow-x-hidden').forEach(el => {
+    el.scrollLeft = 0
+  })
+}
+
+onMounted(() => {
+  commandHistory.value.push({ type: 'output', text: WELCOME_TEXT, isAscii: false })
+  
+  resetScrolls()
+  setTimeout(resetScrolls, 100)
+  setTimeout(resetScrolls, 400)
+
+  setTimeout(() => {
+    focusInput()
+  }, 400)
+
+  githubStore.fetchProfile()
+})
+
+const handleCommand = async (e) => {
+  e?.preventDefault()
+  const cmd = currentInput.value.trim().toLowerCase()
+  if (!cmd) return
+
+  commandHistory.value.push({ type: 'input', text: `visitor@wisnu-desktop:~$ ${cmd}` })
+  currentInput.value = ''
+  scrollToBottom()
+
+  await executeCommand(cmd)
+}
 </script>
 
 <template>
