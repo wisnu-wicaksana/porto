@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import EditorFileHeader from '@/components/common/EditorFileHeader.vue'
 
 // State Formulir Kontak
 const name = ref('')
@@ -100,11 +101,7 @@ const handleSend = async () => {
 <template>
   <div class="h-full flex flex-col font-mono text-sm">
     <!-- Header panel Editor File -->
-    <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
-      <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs"> src / views / editor / contact.sh</span>
-      </div>
-    </div>
+    <EditorFileHeader path="contact.sh" />
 
     <!-- AREA UTAMA -->
     <div class="flex-1 overflow-y-auto">

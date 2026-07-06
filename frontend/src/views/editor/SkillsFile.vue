@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useGithubStore } from '@/stores/github'
 import { PROFILE } from '@/constants/profile'
+import EditorFileHeader from '@/components/common/EditorFileHeader.vue'
 const githubStore = useGithubStore()
 const animateProgress = ref(false)
 
@@ -48,11 +49,7 @@ const softSkills = PROFILE.softSkills
 
 <template>
   <div class="h-full flex flex-col font-mono text-sm">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
-      <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs"> src / views / editor / skills.css</span>
-      </div>
-    </div>
+    <EditorFileHeader path="skills.css" />
 
     <div class="flex-1 overflow-y-auto pr-2">
 

@@ -11,6 +11,8 @@ onMounted(async () => {
 })
 
 import { PROFILE } from '@/constants/profile'
+import EditorFileHeader from '@/components/common/EditorFileHeader.vue'
+import ImageZoomModal from '@/components/common/ImageZoomModal.vue'
 
 // Parsing isi JSON lokal sebagai fallback
 const localProjects = computed(() => PROFILE.projects)
@@ -21,11 +23,7 @@ const localProjects = computed(() => PROFILE.projects)
 <template>
   <div class="h-full flex flex-col font-mono text-sm">
     <!-- Header panel Editor File -->
-    <div class="flex items-center justify-between pb-3 border-b border-slate-800/60 mb-4 select-none shrink-0">
-      <div class="flex items-center space-x-2 text-slate-400">
-        <span class="text-xs"> src / views / editor / projects.json</span>
-      </div>
-    </div>
+    <EditorFileHeader path="projects.json" />
 
     <!-- AREA UTAMA -->
     <div class="flex-1 overflow-y-auto">
@@ -191,20 +189,11 @@ const localProjects = computed(() => PROFILE.projects)
     </div>
     
     <!-- Overlay Zoom Foto -->
-    <transition name="fade-editor">
-      <div 
-        v-if="isZoomed && githubStore.profileData" 
-        class="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out"
-        @click="isZoomed = false"
-      >
-        <img 
-          :src="githubStore.profileData.avatarUrl" 
-          alt="GitHub Avatar Zoomed" 
-          class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl shadow-cyan-500/20"
-          @click.stop
-        />
-      </div>
-    </transition>
+    <ImageZoomModal 
+      :show="isZoomed && !!githubStore.profileData" 
+      :src="githubStore.profileData?.avatarUrl || ''" 
+      @close="isZoomed = false" 
+    />
   </div>
 </template>
 
