@@ -8,7 +8,7 @@ const emit = defineEmits(['select-file', 'open-terminal'])
 </script>
 
 <template>
-  <nav class="hidden md:flex flex-col w-12 bg-slate-950 border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
+  <nav class="hidden lg:flex flex-col w-12 bg-slate-950 border-r border-slate-800/60 justify-between items-center py-4 select-none shrink-0">
     <!-- Grup Ikon Atas -->
     <div class="flex flex-col space-y-6 w-full items-center">
       <!-- File Explorer Icon (Active) -->

@@ -94,7 +94,7 @@ const openTerminal = () => {
       <div 
         v-if="isMobileSidebarOpen"
         @click="isMobileSidebarOpen = false"
-        class="fixed inset-0 bg-black/60 z-5 md:hidden"
+        class="fixed inset-0 bg-black/60 z-5 lg:hidden"
       ></div>
 
       <!-- 4. EDITOR PANEL -->
@@ -109,8 +109,8 @@ const openTerminal = () => {
         />
 
         <!-- AREA UTAMA RENDERING VIEW -->
-        <div class="flex-1 overflow-y-auto relative p-0 md:p-6 bg-slate-900">
-          <div class="max-w-4xl mx-auto min-h-full md:rounded-lg border-b md:border border-slate-800/50 bg-slate-900 p-4 md:p-6 pb-6">
+        <div class="flex-1 overflow-y-auto relative p-0 lg:p-6 bg-slate-900">
+          <div class="max-w-4xl mx-auto min-h-full lg:rounded-lg border-b lg:border border-slate-800/50 bg-slate-900 p-4 lg:p-6 pb-6">
             <!-- Router View dengan Transisi Mulus -->
             <RouterView v-slot="{ Component }">
               <transition name="fade-editor" mode="out-in">

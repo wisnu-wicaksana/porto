@@ -52,7 +52,7 @@ const localProjects = computed(() => PROFILE.projects)
           <!-- Grid Featured Projects Lokal -->
           <div class="space-y-4">
             <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono text-left"> Featured Projects (Local Source)</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div 
                 v-for="project in localProjects" 
                 :key="project.name"
@@ -134,7 +134,7 @@ const localProjects = computed(() => PROFILE.projects)
               <span>My Repositories</span>
             </h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
               <div 
                 v-for="repo in githubStore.profileData.repositories.nodes" 
                 :key="'recent-'+repo.name"

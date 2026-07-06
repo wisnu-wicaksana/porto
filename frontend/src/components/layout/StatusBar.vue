@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <footer class="hidden md:flex h-6 bg-slate-950 border-t border-slate-800/80 justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
+  <footer class="hidden lg:flex h-6 bg-slate-950 border-t border-slate-800/80 justify-between items-center px-3 text-[11px] font-mono text-slate-500 shrink-0 select-none z-20">
     <div class="flex items-center space-x-4">
       <!-- Git Branch -->
       <span class="flex items-center space-x-1 text-cyan-500">

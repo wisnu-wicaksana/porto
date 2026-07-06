@@ -23,7 +23,7 @@ const toggleTheme = () => {
     <!-- Tombol Window & Toggle Files (Kiri) -->
     <div class="flex items-center w-1/4">
       <!-- Tombol Window (Hanya Desktop) -->
-      <div class="hidden md:flex items-center space-x-2">
+      <div class="hidden lg:flex items-center space-x-2">
         <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
         <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
         <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
@@ -31,7 +31,7 @@ const toggleTheme = () => {
       <!-- Button Toggle Sidebar (Hanya Mobile) -->
       <button 
         @click="emit('toggle-sidebar')"
-        class="md:hidden p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all interactive"
+        class="lg:hidden p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all interactive"
         aria-label="Navigasi File"
       >
         <span class="text-xs font-mono font-bold">{{ isMobileSidebarOpen ? 'CLOSE' : 'FILES' }}</span>
@@ -55,7 +55,7 @@ const toggleTheme = () => {
         <span v-if="isLightMode" class="text-xs">🌙</span>
         <span v-else class="text-xs">☀️</span>
       </button>
-      <span class="hidden md:inline-block text-[11px] text-slate-500 font-mono">v1.0.0</span>
+      <span class="hidden lg:inline-block text-[11px] text-slate-500 font-mono">v1.0.0</span>
     </div>
   </header>
 </template>

@@ -79,7 +79,7 @@ setTimeout(typeWriter, 500)
         </div>
 
         <!-- Baris Bawah: Tentang Saya & Fokus -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-left">
           
           <!-- Box: About Me -->
           <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-2 shadow-lg shadow-white/5">

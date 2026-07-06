@@ -11,9 +11,9 @@ const emit = defineEmits(['select-file', 'open-terminal'])
 <template>
   <aside 
     class="w-60 bg-slate-950 border-r border-slate-800/80 flex flex-col select-none shrink-0 transition-transform duration-300 z-10
-           absolute md:static top-0 bottom-0 left-0 h-full
-           md:translate-x-0"
-    :class="isMobileSidebarOpen ? 'translate-x-0 shadow-2xl shadow-cyan-950/40' : '-translate-x-full md:translate-x-0'"
+           absolute lg:static top-0 bottom-0 left-0 h-full
+           lg:translate-x-0"
+    :class="isMobileSidebarOpen ? 'translate-x-0 shadow-2xl shadow-cyan-950/40' : '-translate-x-full lg:translate-x-0'"
   >
     <div class="p-3 border-b border-slate-800/40 flex items-center justify-between">
       <span class="text-xs font-bold tracking-wider text-slate-400 font-mono">EXPLORER: PORTO</span>
