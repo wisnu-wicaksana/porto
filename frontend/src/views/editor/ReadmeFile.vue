@@ -82,7 +82,7 @@ setTimeout(typeWriter, 500)
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-left">
           
           <!-- Box: About Me -->
-          <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-2 shadow-lg shadow-white/5">
+          <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-2 shadow-lg shadow-glow/5">
             <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono"> About Me</h3>
             <p class="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap">
               {{ PROFILE.about }}
@@ -90,7 +90,7 @@ setTimeout(typeWriter, 500)
           </div>
 
           <!-- Box: Social Links -->
-          <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-3 shadow-lg shadow-white/5 flex flex-col justify-start">
+          <div class="p-4 rounded-lg bg-slate-900/40 border border-slate-800/40 space-y-3 shadow-lg shadow-glow/5 flex flex-col justify-start">
             <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider font-mono"> Let's Connect</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               <a :href="`mailto:${PROFILE.contact.email}`" target="_blank" class="flex items-center space-x-2 px-3 py-2 rounded-md bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-cyan-400 border border-slate-800/50 transition-colors">

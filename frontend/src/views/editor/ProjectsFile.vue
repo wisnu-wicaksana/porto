@@ -39,7 +39,7 @@ const localProjects = computed(() => PROFILE.projects)
 
         <!-- Error / Offline / Token missing state -> FALLBACK VIEW -->
         <div v-else-if="githubStore.error || !githubStore.profileData" class="space-y-6">
-          <div class="p-4 rounded-lg bg-yellow-950/20 border border-yellow-800/30 text-yellow-400 text-left flex items-start space-x-3 shadow-lg shadow-white/5">
+          <div class="p-4 rounded-lg bg-yellow-950/20 border border-yellow-800/30 text-yellow-400 text-left flex items-start space-x-3 shadow-lg shadow-glow/5">
             <span class="text-lg">⚠️</span>
             <div class="text-xs space-y-1">
               <p class="font-bold">Offline / Local Mode</p>
@@ -56,7 +56,7 @@ const localProjects = computed(() => PROFILE.projects)
               <div 
                 v-for="project in localProjects" 
                 :key="project.name"
-                class="p-5 rounded-lg bg-slate-900/30 border border-slate-800/60 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all text-left group shadow-lg shadow-white/5 hover:shadow-white/10"
+                class="p-5 rounded-lg bg-slate-900/30 border border-slate-800/60 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-cyan-950/5 transition-all text-left group shadow-lg shadow-glow/5 hover:shadow-glow/10"
               >
                 <div class="space-y-3">
                   <div class="flex justify-between items-center">
@@ -98,7 +98,7 @@ const localProjects = computed(() => PROFILE.projects)
         <div v-else class="space-y-8">
           
           <!-- GitHub Profile Header Summary -->
-          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-slate-950/40 border border-slate-900/80 text-left shadow-lg shadow-white/5">
+          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-slate-950/40 border border-slate-900/80 text-left shadow-lg shadow-glow/5">
             <img 
               :src="githubStore.profileData.avatarUrl" 
               alt="GitHub Avatar" 
@@ -138,7 +138,7 @@ const localProjects = computed(() => PROFILE.projects)
               <div 
                 v-for="repo in githubStore.profileData.repositories.nodes" 
                 :key="'recent-'+repo.name"
-                class="p-4 rounded-lg bg-slate-900/10 border border-slate-800/40 flex flex-col justify-between hover:border-slate-500/40 hover:bg-slate-800/20 transition-all text-left group shadow-lg shadow-white/5 hover:shadow-white/10"
+                class="p-4 rounded-lg bg-slate-900/10 border border-slate-800/40 flex flex-col justify-between hover:border-slate-500/40 hover:bg-slate-800/20 transition-all text-left group shadow-lg shadow-glow/5 hover:shadow-glow/10"
               >
                 <div class="space-y-2">
                   <div class="flex justify-between items-start gap-2">

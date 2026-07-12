@@ -56,7 +56,7 @@ const softSkills = PROFILE.softSkills
       <div class="font-mono space-y-8 pb-8">
         
         <!-- Live GitHub Languages -->
-        <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left shadow-lg shadow-white/5">
+        <div class="p-6 rounded-lg bg-slate-900/30 border border-slate-800/60 transition-all text-left shadow-lg shadow-glow/5">
           <h3 class="text-sm font-bold tracking-wider font-mono uppercase pb-4 border-b border-slate-800/40 mb-6 flex items-center space-x-2 text-slate-300">
             <span>GitHub Languages Distribution</span>
           </h3>
@@ -100,7 +100,7 @@ const softSkills = PROFILE.softSkills
             <div 
               v-for="group in detailedEcosystem" 
               :key="group.category"
-              class="p-5 rounded-lg bg-slate-900/20 border flex flex-col justify-between transition-all hover:bg-slate-800/30 shadow-lg shadow-white/5 hover:shadow-white/10"
+              class="p-5 rounded-lg bg-slate-900/20 border flex flex-col justify-between transition-all hover:bg-slate-800/30 shadow-lg shadow-glow/5 hover:shadow-glow/10"
               :class="[group.borderColor]"
             >
               <div>
@@ -129,7 +129,7 @@ const softSkills = PROFILE.softSkills
         </div>
 
         <!-- Soft Skills -->
-        <div class="p-5 rounded-lg bg-slate-950/60 border border-slate-900/80 font-mono text-left space-y-3 shadow-lg shadow-white/5">
+        <div class="p-5 rounded-lg bg-slate-950/60 border border-slate-900/80 font-mono text-left space-y-3 shadow-lg shadow-glow/5">
           <div class="flex items-center space-x-2 text-xs text-slate-500 select-none pb-2 border-b border-slate-900/60">
             <span class="text-yellow-500">⬤</span>
             <span class="text-green-500">⬤</span>

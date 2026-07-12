@@ -40,6 +40,7 @@
   /* Red mapped to Vercel Error */
   --color-red-400: #f35166;
   --color-red-500: #ee0000;
+  --color-glow: var(--th-glow);
 }
 
 @layer base {
@@ -65,6 +66,7 @@
     --th-slate-900: #000000;
     --th-slate-950: #0a0a0a;
     --th-cyan-950: #00255c;
+    --th-glow: #ffffff;
   }
 
   .light {
@@ -76,10 +78,11 @@
     --th-slate-500: #71717a;
     --th-slate-600: #a1a1aa;
     --th-slate-700: #d4d4d8;
-    --th-slate-800: #e4e4e7; /* Borders in light mode */
+    --th-slate-800: #cbd5e1; /* Borders in light mode */
     --th-slate-900: #f4f4f5; /* Light content bg */
     --th-slate-950: #ffffff; /* Light header/sidebar bg */
-    --th-cyan-950: #e0f2fe; /* Light blue for button hovers */
+    --th-cyan-950: #e0f2fe;
+    --th-glow: #000000; /* Light blue for button hovers */
   }
 
   * {
