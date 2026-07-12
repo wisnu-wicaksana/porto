@@ -1,7 +1,8 @@
 export default async function handler(req, res) {
   // 1. Atur CORS Headers agar frontend bisa mengakses API ini
+  const allowedOrigin = process.env.NODE_ENV === 'development' ? '*' : 'https://my-production-url.vercel.app';
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Di produksi, Anda bisa menggantinya dengan domain frontend
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',

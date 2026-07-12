@@ -13,6 +13,12 @@ import StatusBar from '@/components/layout/StatusBar.vue'
 const route = useRoute()
 const router = useRouter()
 
+// Create an O(1) lookup map from VIRTUAL_FILES
+const virtualFilesMap = Object.values(VIRTUAL_FILES).reduce((acc, file) => {
+  acc[file.path] = file
+  return acc
+}, {})
+
 // State untuk Sidebar Mobile (laci menu)
 const isMobileSidebarOpen = ref(false)
 
@@ -26,8 +32,7 @@ const openTabs = ref([
 
 // File yang saat ini aktif berdasarkan path rute aktif
 const activeFile = computed(() => {
-  const currentPath = route.path
-  return Object.values(VIRTUAL_FILES).find(file => file.path === currentPath) || {}
+  return virtualFilesMap[route.path] || {}
 })
 
 // Fungsi untuk beralih file
