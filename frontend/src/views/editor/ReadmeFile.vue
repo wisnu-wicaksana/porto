@@ -3,8 +3,10 @@ import { ref, onMounted } from 'vue'
 import { PROFILE } from '@/constants/profile'
 import { useGithubStore } from '@/stores/github'
 import EditorFileHeader from '@/components/common/EditorFileHeader.vue'
+import ImageZoomModal from '@/components/common/ImageZoomModal.vue'
 
 const githubStore = useGithubStore()
+const isZoomed = ref(false)
 
 onMounted(() => {
   githubStore.fetchProfile()
@@ -40,21 +42,17 @@ setTimeout(typeWriter, 500)
         <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6 pb-6 border-b border-slate-800/40">
           
           <!-- Foto Profil -->
-          <a
-            :href="githubStore.profileData?.url || PROFILE.contact.github"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="relative group select-none shrink-0 block"
-            title="Open GitHub Profile"
-          >
+          <div class="relative group select-none shrink-0">
             <div class="relative w-32 h-32 rounded-full overflow-hidden border border-slate-700 bg-slate-900 flex items-center justify-center">
               <img 
                 :src="githubStore.profileData?.avatarUrl || PROFILE.avatarUrl" 
                 :alt="PROFILE.name"
                 class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                @click="isZoomed = true"
+                title="Zoom Picture"
               />
             </div>
-          </a>
+          </div>
 
           <!-- Informasi Profil Ringkas -->
           <div class="text-center lg:text-left space-y-3">
@@ -129,5 +127,12 @@ setTimeout(typeWriter, 500)
         </div>
       </div>
     </div>
+    
+    <!-- Overlay Zoom Foto -->
+    <ImageZoomModal 
+      :show="isZoomed" 
+      :src="githubStore.profileData?.avatarUrl || PROFILE.avatarUrl" 
+      @close="isZoomed = false" 
+    />
   </div>
 </template>

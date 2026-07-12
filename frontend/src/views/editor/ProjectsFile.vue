@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useGithubStore } from '@/stores/github'
 
+const isZoomed = ref(false)
 const githubStore = useGithubStore()
 
 onMounted(async () => {
@@ -11,6 +12,7 @@ onMounted(async () => {
 
 import { PROFILE } from '@/constants/profile'
 import EditorFileHeader from '@/components/common/EditorFileHeader.vue'
+import ImageZoomModal from '@/components/common/ImageZoomModal.vue'
 
 // Parsing isi JSON lokal sebagai fallback
 const localProjects = computed(() => PROFILE.projects)
@@ -97,19 +99,13 @@ const localProjects = computed(() => PROFILE.projects)
           
           <!-- GitHub Profile Header Summary -->
           <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-slate-950/40 border border-slate-900/80 text-left shadow-lg shadow-white/5">
-            <a 
-              :href="githubStore.profileData.url || PROFILE.contact.github" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="w-20 h-20 shrink-0 block"
-              title="Open GitHub Profile"
-            >
-              <img 
-                :src="githubStore.profileData.avatarUrl" 
-                alt="GitHub Avatar" 
-                class="w-full h-full rounded-full border border-cyan-500/50 cursor-pointer hover:scale-105 transition-transform"
-              />
-            </a>
+            <img 
+              :src="githubStore.profileData.avatarUrl" 
+              alt="GitHub Avatar" 
+              class="w-20 h-20 rounded-full border border-cyan-500/50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
+              @click="isZoomed = true"
+              title="Zoom Picture"
+            />
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <h3 class="text-base font-bold text-slate-200">{{ githubStore.profileData.name }}</h3>
@@ -191,6 +187,13 @@ const localProjects = computed(() => PROFILE.projects)
       </div>
 
     </div>
+    
+    <!-- Overlay Zoom Foto -->
+    <ImageZoomModal 
+      :show="isZoomed && !!githubStore.profileData" 
+      :src="githubStore.profileData?.avatarUrl || ''" 
+      @close="isZoomed = false" 
+    />
   </div>
 </template>
 
