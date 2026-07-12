@@ -31,6 +31,7 @@ export default async function handler(req, res) {
       viewer {
         name
         login
+        url
         avatarUrl
         bio
         company

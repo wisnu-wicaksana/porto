@@ -109,7 +109,7 @@ const localProjects = computed(() => PROFILE.projects)
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <h3 class="text-base font-bold text-slate-200">{{ githubStore.profileData.name }}</h3>
-                <a :href="githubStore.profileData.githubUrl || '#'" target="_blank" class="text-xs text-cyan-400 hover:underline interactive font-mono">
+                <a :href="githubStore.profileData.url || PROFILE.contact.github" target="_blank" class="text-xs text-cyan-400 hover:underline interactive font-mono">
                   @{{ githubStore.profileData.login }}
                 </a>
               </div>
