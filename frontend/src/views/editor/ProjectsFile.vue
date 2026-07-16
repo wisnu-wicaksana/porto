@@ -102,18 +102,18 @@ const localProjects = computed(() => PROFILE.projects)
             <img 
               :src="githubStore.profileData.avatarUrl" 
               alt="GitHub Avatar" 
-              class="w-20 h-20 rounded-full border border-cyan-500/50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
+              class="w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full border border-cyan-500/50 shrink-0 cursor-pointer hover:scale-105 transition-transform"
               @click="isZoomed = true"
               title="Zoom Picture"
             />
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <h3 class="text-base font-bold text-slate-200">{{ githubStore.profileData.name }}</h3>
+                <h3 class="text-base font-bold text-slate-200">{{ githubStore.profileData.name || PROFILE.name }}</h3>
                 <a :href="githubStore.profileData.url || PROFILE.contact.github" target="_blank" class="text-xs text-cyan-400 hover:underline interactive font-mono">
                   @{{ githubStore.profileData.login }}
                 </a>
               </div>
-              <p class="text-xs text-slate-400">{{ githubStore.profileData.bio }}</p>
+              <p class="text-xs text-slate-400">{{ githubStore.profileData.bio || PROFILE.bio }}</p>
             </div>
             
             <div class="flex gap-4 sm:border-l sm:border-slate-800/80 sm:pl-6 text-center sm:text-left">

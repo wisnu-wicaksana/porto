@@ -43,7 +43,7 @@ setTimeout(typeWriter, 500)
           
           <!-- Foto Profil -->
           <div class="relative group select-none shrink-0">
-            <div class="relative w-32 h-32 rounded-full overflow-hidden border border-slate-700 bg-slate-900 flex items-center justify-center">
+            <div class="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border border-slate-700 bg-slate-900 flex items-center justify-center">
               <img 
                 :src="githubStore.profileData?.avatarUrl || PROFILE.avatarUrl" 
                 :alt="PROFILE.name"
