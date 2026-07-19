@@ -45,11 +45,11 @@
 
 @layer base {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
   @media (min-width: 1024px) {
     html {
-      font-size: 20px;
+      font-size: 18px;
     }
   }
 
