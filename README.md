@@ -1,44 +1,58 @@
-# frontend
+# Wisnu Wicaksana - Developer Portfolio
 
-This template should help get you started developing with Vue 3 in Vite.
+A sleek, interactive, and modern web developer portfolio designed with an IDE/Terminal theme. Built to showcase projects, skills, and real-time GitHub statistics directly within a code-editor-like interface.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **IDE-Themed UI**: An immersive experience that mimics a modern code editor (like VS Code) with activity bars, sidebars, and tabbed file navigation.
+- **Real-time GitHub Integration**: Uses GitHub's GraphQL API to dynamically fetch and display live repository data, pinned projects, and profile statistics.
+- **Interactive Terminal**: A fully functional-looking terminal view at the bottom of the editor.
+- **Working Contact Form**: Integrated with Web3Forms to receive messages directly to email without a backend.
+- **Responsive & Scalable**: Carefully crafted with Tailwind CSS for perfect rendering on both desktop and mobile devices.
 
-## Recommended Browser Setup
+## Tech Stack
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Framework**: [Vue 3](https://vuejs.org/) (Composition API)
+- **Bundler**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Backend/API**: Vercel Serverless Functions (`api/` directory) & Vite Proxy for local development.
+- **Deployment**: [Vercel](https://vercel.com/)
 
-## Customize configuration
+## Local Development Setup
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+To run this project locally, you will need a GitHub Personal Access Token (PAT) and a Web3Forms Access Key.
 
-## Project Setup
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/wisnu-wicaksana/porto.git
+   cd porto
+   ```
 
-```sh
-npm install
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### Compile and Hot-Reload for Development
+3. **Configure Environment Variables**
+   Create a `.env` file in the root of the project and add your tokens:
+   ```env
+   VITE_WEB3FORMS_ACCESS_KEY=your_web3forms_key_here
+   GITHUB_PAT=ghp_your_github_personal_access_token_here
+   ```
 
-```sh
-npm run dev
-```
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   *Note: The Vite proxy is pre-configured to securely handle the GitHub API requests locally using your PAT without exposing it to the browser.*
 
-### Compile and Minify for Production
+5. **Open in Browser**
+   Navigate to `http://localhost:5173`
 
-```sh
-npm run build
-```
+## Deployment
 
-### Lint with [ESLint](https://eslint.org/)
+This project is optimized for deployment on **Vercel**. 
+Simply link your GitHub repository to a new Vercel project and ensure you add the `VITE_WEB3FORMS_ACCESS_KEY` and `GITHUB_PAT` to the Vercel Environment Variables settings before deploying.
 
-```sh
-npm run lint
-```
+---
+*Designed & Built by Wisnu Wicaksana.*
